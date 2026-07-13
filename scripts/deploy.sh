@@ -20,6 +20,7 @@ find "$LANDING_DEST" -type d -exec chmod 755 {} \;
 mkdir -p "$LEGAL_DEST" "$LEGACY_LEGAL"
 cp "$ROOT/legal/privacy.html" "$LEGAL_DEST/privacy.html"
 cp "$ROOT/legal/terms.html" "$LEGAL_DEST/terms.html"
+cp "$ROOT/legal/contact.html" "$LEGAL_DEST/contact.html"
 chmod 644 "$LEGAL_DEST"/*.html
 cp "$LEGAL_DEST/privacy.html" "$LEGACY_LEGAL/privacy.html"
 cp "$LEGAL_DEST/terms.html" "$LEGACY_LEGAL/terms.html"

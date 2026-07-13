@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EyeNewz — Contact Us</title>
+  <meta name="description" content="Contact EyeNewz for support, account deletion, grievances, and general enquiries." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/legal.css" />
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" aria-label="EyeNewz home">
+        <img src="/assets/logo.svg" alt="" class="brand-icon" width="40" height="40" />
+        <div class="brand-text">
+          <span class="brand-name">EyeNewz</span>
+          <span class="brand-tagline">News that matters — fast.</span>
+        </div>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/contact-us" class="is-active">Contact</a>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="legal-main">
+    <h1>Contact Us</h1>
+    <p class="legal-meta">We typically respond within 2–3 business days.</p>
+
+    <div class="contact-intro">
+      <p><strong>Delete your account or data:</strong> If you signed in with Google and want your account removed, mention the associated email address in the message box and write <strong>“Delete account”</strong>. Your account and linked data will be deleted. For more details, see our <a href="/privacy">Privacy Policy</a>.</p>
+      <p style="margin-bottom:0">For general support: <a href="mailto:support@eyenewz.com">support@eyenewz.com</a> · For legal or grievances: <a href="mailto:legal@eyenewz.com">legal@eyenewz.com</a></p>
+    </div>
+
+    <form id="contact-form" class="contact-form" novalidate>
+      <div class="form-field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="form-field">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel" />
+      </div>
+      <div class="form-field">
+        <label for="username">User Name <span style="font-weight:400;color:var(--ink-subtle)">(if applicable)</span></label>
+        <input type="text" id="username" name="username" autocomplete="username" />
+      </div>
+      <div class="form-field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="How can we help you?"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Submit</button>
+      <p class="form-note">Submitting opens your email app with a pre-filled message to support@eyenewz.com.</p>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href="/contact-us">Contact Us</a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <a href="/privacy">Privacy Policy</a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <span class="footer-sep" aria-hidden="true">·</span>
+        <a href="mailto:support@eyenewz.com">support@eyenewz.com</a>
+      </nav>
+      <p>&copy; 2026 EyeNewz. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("contact-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var name = document.getElementById("name").value.trim();
+      var email = document.getElementById("email").value.trim();
+      var phone = document.getElementById("phone").value.trim();
+      var username = document.getElementById("username").value.trim();
+      var message = document.getElementById("message").value.trim();
+      if (!name || !email || !message) return;
+
+      var body = [
+        "Name: " + name,
+        "Email: " + email,
+        phone ? "Phone: " + phone : null,
+        username ? "User Name: " + username : null,
+        "",
+        message
+      ].filter(Boolean).join("\n");
+
+      var mailto = "mailto:support@eyenewz.com"
+        + "?subject=" + encodeURIComponent("EyeNewz Contact — " + name)
+        + "&body=" + encodeURIComponent(body);
+      window.location.href = mailto;
+    });
+  </script>
+</body>
+</html>
