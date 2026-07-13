@@ -2,6 +2,15 @@
 
 Static landing page and legal pages for [eyenewz.com](https://eyenewz.com).
 
+## All pages
+
+| Page | URL |
+|------|-----|
+| Home (landing) | https://eyenewz.com/ |
+| Contact Us | https://eyenewz.com/contact-us |
+| Privacy Policy | https://eyenewz.com/privacy |
+| Terms & Conditions | https://eyenewz.com/terms |
+
 ## Structure
 
 | Path | URL |
