@@ -1,17 +1,19 @@
-/* EyeNewz legal & contact pages */
+/* EyeNewz legal & contact pages — brand red EN theme */
 
 :root {
-  --accent: #2196f3;
-  --accent-light: #64b5f6;
-  --ink: #111111;
-  --ink-muted: #6b7280;
-  --ink-subtle: #9ca3af;
-  --bg: #ffffff;
-  --surface: #f8fafc;
-  --border: rgba(0, 0, 0, 0.08);
+  --accent: #e30613;
+  --accent-deep: #b5050f;
+  --accent-light: #ff4d57;
+  --ink: #141414;
+  --ink-muted: #5c6370;
+  --ink-subtle: #8b929e;
+  --bg: #fff8f8;
+  --surface: #fff0f0;
+  --border: rgba(227, 6, 19, 0.12);
   --header-height: 72px;
   --max-width: 800px;
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Libre Baskerville", Georgia, "Times New Roman", serif;
 }
 
 *,
@@ -87,6 +89,9 @@ a:hover {
   width: 40px;
   height: 40px;
   flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(227, 6, 19, 0.25);
 }
 
 .brand-text {
@@ -96,9 +101,11 @@ a:hover {
 }
 
 .brand-name {
-  font-size: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  color: var(--accent);
 }
 
 .brand-tagline {
@@ -124,7 +131,7 @@ a:hover {
 
 .site-nav a:hover,
 .site-nav a.is-active {
-  color: var(--ink);
+  color: var(--accent);
 }
 
 .site-nav a.is-active {
@@ -140,10 +147,12 @@ a:hover {
 
 .legal-main h1 {
   margin: 0 0 0.5rem;
+  font-family: var(--font-display);
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
+  color: var(--accent);
 }
 
 .legal-meta {
@@ -244,7 +253,7 @@ a:hover {
 }
 
 .btn-submit:hover {
-  background: #1e88e5;
+  background: var(--accent-deep);
 }
 
 .form-note {
