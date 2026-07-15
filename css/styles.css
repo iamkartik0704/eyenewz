@@ -175,16 +175,17 @@ a:hover {
 
 .phone-frame {
   --phone-max-h: calc(100dvh - var(--header-height) - 5rem);
-  --phone-max-w: min(260px, 68vw);
-  /* Scale by the tighter limit so ratio stays 460×1024 — never crops the screenshot */
-  width: min(var(--phone-max-w), calc(var(--phone-max-h) * 460 / 1024));
-  aspect-ratio: 460 / 1024;
+  --phone-max-w: min(280px, 70vw);
+  /* Scale by the tighter limit so ratio stays 551×1024 — full image visible */
+  width: min(var(--phone-max-w), calc(var(--phone-max-h) * 551 / 1024));
+  aspect-ratio: 551 / 1024;
   max-height: var(--phone-max-h);
-  background: #000;
-  border-radius: clamp(18px, 8%, 28px);
+  background: #fff;
+  border-radius: clamp(18px, 7%, 24px);
   overflow: hidden;
   isolation: isolate;
   transform: translateZ(0);
+  padding: 0;
   box-shadow:
     0 22px 44px -12px rgba(227, 6, 19, 0.2),
     0 10px 20px rgba(0, 0, 0, 0.16);
@@ -198,9 +199,9 @@ a:hover {
   max-width: none;
   max-height: none;
   object-fit: cover;
-  object-position: center;
+  object-position: center top;
   border-radius: 0;
-  background: transparent;
+  background: #fff;
 }
 
 /* Hero copy */
