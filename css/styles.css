@@ -167,25 +167,32 @@ a:hover {
 .phone-mockup {
   display: flex;
   justify-content: center;
-  padding: 1rem 0;
+  align-items: center;
+  padding: 0.5rem 0;
+  overflow: visible;
 }
 
 .phone-frame {
-  width: min(280px, 72vw);
-  background: #0a0a0a;
-  border-radius: 28px;
-  padding: 10px;
+  width: min(260px, 68vw);
+  max-height: calc(100dvh - var(--header-height) - 4.5rem);
+  padding: 0;
+  background: transparent;
+  border-radius: 24px;
+  overflow: hidden;
   box-shadow:
-    0 25px 50px -12px rgba(227, 6, 19, 0.22),
-    0 12px 24px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(0, 0, 0, 0.35);
+    0 22px 44px -12px rgba(227, 6, 19, 0.2),
+    0 10px 20px rgba(0, 0, 0, 0.16);
+  line-height: 0;
 }
 
 .phone-screen-image {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 18px;
+  max-height: calc(100dvh - var(--header-height) - 4.5rem);
+  object-fit: contain;
+  object-position: top center;
+  border-radius: 24px;
   background: #fff;
 }
 
