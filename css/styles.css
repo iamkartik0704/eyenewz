@@ -146,10 +146,11 @@ a:hover {
 /* Hero */
 
 .hero {
-  min-height: 100vh;
-  padding: calc(var(--header-height) + 3rem) 1.5rem 4rem;
+  min-height: 100dvh;
+  padding: calc(var(--header-height) + 2rem) 1.5rem 3rem;
   display: flex;
   align-items: center;
+  overflow: visible;
 }
 
 .hero-inner {
@@ -157,43 +158,49 @@ a:hover {
   margin: 0 auto;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
   gap: 3rem;
   align-items: center;
+  overflow: visible;
 }
 
-/* Phone mockup — real app screenshot */
+/* Phone mockup — real app screenshot (full phone stays inside frame) */
 
 .phone-mockup {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem 0;
-  overflow: visible;
 }
 
 .phone-frame {
-  width: min(260px, 68vw);
-  max-height: calc(100dvh - var(--header-height) - 4.5rem);
-  padding: 0;
-  background: transparent;
-  border-radius: 24px;
+  --phone-max-h: calc(100dvh - var(--header-height) - 5rem);
+  --phone-max-w: min(260px, 68vw);
+  /* Scale by the tighter limit so ratio stays 460×1024 — never crops the screenshot */
+  width: min(var(--phone-max-w), calc(var(--phone-max-h) * 460 / 1024));
+  aspect-ratio: 460 / 1024;
+  max-height: var(--phone-max-h);
+  background: #000;
+  border-radius: clamp(18px, 8%, 28px);
   overflow: hidden;
+  isolation: isolate;
+  transform: translateZ(0);
   box-shadow:
     0 22px 44px -12px rgba(227, 6, 19, 0.2),
     0 10px 20px rgba(0, 0, 0, 0.16);
   line-height: 0;
 }
 
-.phone-screen-image {
+.phone-frame .phone-screen-image {
   display: block;
   width: 100%;
-  height: auto;
-  max-height: calc(100dvh - var(--header-height) - 4.5rem);
-  object-fit: contain;
-  object-position: top center;
-  border-radius: 24px;
-  background: #fff;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  background: transparent;
 }
 
 /* Hero copy */
@@ -298,7 +305,7 @@ a:hover {
   }
 
   .phone-frame {
-    width: 240px;
+    --phone-max-w: min(230px, 62vw);
   }
 }
 
@@ -316,7 +323,8 @@ a:hover {
   }
 
   .hero {
-    padding-top: calc(var(--header-height) + 2rem);
+    padding-top: calc(var(--header-height) + 1.5rem);
+    padding-bottom: 2.5rem;
     min-height: auto;
   }
 
@@ -345,7 +353,8 @@ a:hover {
   }
 
   .phone-frame {
-    width: 220px;
+    --phone-max-w: min(200px, 56vw);
+    --phone-max-h: min(58dvh, 520px);
   }
 }
 
