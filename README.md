@@ -39,7 +39,9 @@ This syncs the landing page to `/var/www/eyenewz` and legal pages to `/var/www/e
 
 ## Play Store link
 
-When the Google Play listing is live, update the Play Store URL in `index.html` (search for `PLAY_STORE_URL`).
+The Google Play badge on the landing page and the footer “Get the app” link open:
+
+https://play.google.com/store/apps/details?id=com.prod.contentnews
 
 ## Related repo
 
