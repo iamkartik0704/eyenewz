@@ -3,64 +3,153 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EyeNewz — Stay informed in 60 words</title>
-  <meta name="description" content="Trusted tech news, trimmed to 60 words. Read summaries, open sources, finish in minutes — built for the mobile generation." />
-  <meta property="og:title" content="EyeNewz — Stay informed in 60 words" />
-  <meta property="og:description" content="Trusted tech news, trimmed to the point. Read summaries, open sources, finish in minutes." />
+  <title>EyeNewz — Short news for India in 60 words</title>
+  <meta name="description" content="EyeNewz is a free Android news app for India: trusted headlines trimmed to 60 words. Skim fast, open the original source when you want more." />
+  <link rel="canonical" href="https://eyenewz.com/" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="EyeNewz — Short news for India in 60 words" />
+  <meta property="og:description" content="Trusted headlines trimmed to the point. Free on Google Play for Android." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://eyenewz.com/" />
+  <meta property="og:site_name" content="EyeNewz" />
+  <meta property="og:image" content="https://eyenewz.com/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EyeNewz — Short news for India in 60 words" />
+  <meta name="twitter:description" content="Trusted headlines trimmed to the point. Free on Google Play for Android." />
+  <meta name="twitter:image" content="https://eyenewz.com/assets/og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/logo.png" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://eyenewz.com/#organization",
+        "name": "EyeNewz",
+        "url": "https://eyenewz.com/",
+        "logo": "https://eyenewz.com/assets/logo.png",
+        "email": "support@eyenewz.com",
+        "sameAs": [
+          "https://play.google.com/store/apps/details?id=com.prod.contentnews"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://eyenewz.com/#website",
+        "url": "https://eyenewz.com/",
+        "name": "EyeNewz",
+        "publisher": { "@id": "https://eyenewz.com/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "EyeNewz",
+        "operatingSystem": "Android",
+        "applicationCategory": "NewsApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        },
+        "url": "https://play.google.com/store/apps/details?id=com.prod.contentnews",
+        "downloadUrl": "https://play.google.com/store/apps/details?id=com.prod.contentnews",
+        "description": "Short, trusted news summaries for India — trimmed to about 60 words.",
+        "publisher": { "@id": "https://eyenewz.com/#organization" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is EyeNewz?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EyeNewz is a free Android news app that delivers trusted headlines as short summaries—about 60 words—so you can stay informed without scrolling forever."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is EyeNewz free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. EyeNewz is free to download on Google Play for Android."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where do the stories come from?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "EyeNewz aggregates headlines and summaries from trusted publishers. You can open the original source article anytime."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does EyeNewz replace full articles?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Summaries help you skim. Tap through to the publisher’s page when you want the full story."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is EyeNewz built for readers in India?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The feed prioritizes relevant India and global news for mobile readers who want speed and clarity."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <!-- Play Store: https://play.google.com/store/apps/details?id=com.prod.contentnews -->
   <header class="site-header">
     <div class="header-inner">
       <a href="/" class="brand" aria-label="EyeNewz home">
-        <img src="assets/logo.png" alt="EyeNewz" class="brand-icon" width="40" height="40" />
-        <div class="brand-text">
-          <span class="brand-name">EyeNewz</span>
-          <span class="brand-tagline">News that matters — fast.</span>
-        </div>
+        <img src="assets/logo.svg" alt="" class="brand-icon" width="36" height="36" />
+        <span class="brand-name">EyeNewz</span>
       </a>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="/">Home</a>
-        <a href="#download" class="is-active">Download</a>
+        <a href="#why">Why</a>
+        <a href="#how">How</a>
+        <a href="#faq">FAQ</a>
+        <a href="#download">Download</a>
         <a href="/contact-us">Contact</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
       </nav>
     </div>
   </header>
 
   <main>
-    <section class="hero" aria-labelledby="hero-headline">
+    <section class="hero" aria-labelledby="hero-brand">
+      <div class="hero-stage" aria-hidden="true">
+        <img
+          src="assets/app-screenshot.jpg"
+          alt=""
+          class="hero-stage-image"
+          width="551"
+          height="1024"
+        />
+        <div class="hero-stage-veil"></div>
+      </div>
       <div class="hero-inner">
-        <div class="phone-mockup">
-          <div class="phone-frame">
-            <img
-              src="assets/app-screenshot.jpg"
-              alt="EyeNewz Android app — My Feed with short news summaries"
-              class="phone-screen-image"
-              width="551"
-              height="1024"
-            />
-          </div>
-        </div>
-
-        <div class="hero-copy">
-          <h1 id="hero-headline" class="hero-headline">Stay informed in 60 words.</h1>
+        <div class="hero-copy animate-in">
+          <h1 id="hero-brand" class="hero-brand">EyeNewz</h1>
+          <p class="hero-line">Stay informed in 60 words.</p>
           <p class="hero-description">
-            Trusted tech news, trimmed to the point. Read summaries, open sources, finish in minutes — built for the mobile generation.
+            The short news app for India — trusted headlines, trimmed to the point.
           </p>
           <div id="download" class="cta-section">
             <a
               href="https://play.google.com/store/apps/details?id=com.prod.contentnews"
-              id="play-store-link"
               class="play-store-link"
               target="_blank"
               rel="noopener noreferrer"
@@ -68,9 +157,118 @@
             >
               <img src="assets/google-play-badge.svg" alt="Get it on Google Play" width="180" height="53" />
             </a>
-            <p class="cta-note">Free on Google Play for Android.</p>
           </div>
         </div>
+        <div class="hero-phone animate-in delay-1" aria-hidden="true">
+          <div class="phone-frame">
+            <img
+              src="assets/app-screenshot.jpg"
+              alt=""
+              class="phone-screen-image"
+              width="551"
+              height="1024"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-why" id="why" aria-labelledby="why-heading">
+      <div class="section-inner reveal">
+        <h2 id="why-heading">Short news that respects your time</h2>
+        <p class="section-lead">
+          EyeNewz is built for mobile readers in India who want clarity, not clutter.
+          Each story is a focused summary—about sixty words—so you finish the feed
+          and still have your morning.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-how" id="how" aria-labelledby="how-heading">
+      <div class="section-inner reveal">
+        <h2 id="how-heading">How it works</h2>
+        <ol class="steps">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <h3>Open the feed</h3>
+              <p>Fresh headlines arrive as a clean mobile stream.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <h3>Skim in 60 words</h3>
+              <p>Get the point fast—no endless scroll through fluff.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <h3>Tap the source</h3>
+              <p>Want depth? Open the original publisher article in one tap.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section-trust" id="sources" aria-labelledby="trust-heading">
+      <div class="section-inner reveal">
+        <h2 id="trust-heading">Trusted sources, one place</h2>
+        <p class="section-lead">
+          EyeNewz pulls from established publishers and news APIs so you see what matters—
+          with a clear path back to the original story.
+        </p>
+        <ul class="source-list">
+          <li>National &amp; India desk coverage</li>
+          <li>Tech, business &amp; world briefs</li>
+          <li>Always open the original link</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section-faq" id="faq" aria-labelledby="faq-heading">
+      <div class="section-inner reveal">
+        <h2 id="faq-heading">FAQ</h2>
+        <div class="faq-list">
+          <details>
+            <summary>What is EyeNewz?</summary>
+            <p>A free Android news app that delivers trusted headlines as short summaries—about 60 words—so you stay informed without scrolling forever.</p>
+          </details>
+          <details>
+            <summary>Is EyeNewz free?</summary>
+            <p>Yes. Download EyeNewz free on Google Play for Android.</p>
+          </details>
+          <details>
+            <summary>Where do the stories come from?</summary>
+            <p>We aggregate from trusted publishers and news providers. You can open the original source anytime.</p>
+          </details>
+          <details>
+            <summary>Does this replace full articles?</summary>
+            <p>No. Summaries help you skim. Tap through when you want the full story from the publisher.</p>
+          </details>
+          <details>
+            <summary>Is it for readers in India?</summary>
+            <p>Yes. The feed prioritizes relevant India and global news for fast mobile reading.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-final" id="get-app" aria-labelledby="final-heading">
+      <div class="section-inner reveal">
+        <h2 id="final-heading">Get EyeNewz on Android</h2>
+        <p class="section-lead">Free on Google Play. News that matters — fast.</p>
+        <a
+          href="https://play.google.com/store/apps/details?id=com.prod.contentnews"
+          class="play-store-link"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Get EyeNewz on Google Play"
+        >
+          <img src="assets/google-play-badge.svg" alt="Get it on Google Play" width="180" height="53" />
+        </a>
       </div>
     </section>
   </main>
@@ -80,22 +278,19 @@
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="/">Home</a>
         <span class="footer-sep" aria-hidden="true">·</span>
-        <a
-          href="https://play.google.com/store/apps/details?id=com.prod.contentnews"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Get the app</a>
+        <a href="https://play.google.com/store/apps/details?id=com.prod.contentnews" target="_blank" rel="noopener noreferrer">Get the app</a>
         <span class="footer-sep" aria-hidden="true">·</span>
-        <a href="/contact-us">Contact Us</a>
+        <a href="/contact-us">Contact</a>
         <span class="footer-sep" aria-hidden="true">·</span>
-        <a href="/privacy">Privacy Policy</a>
+        <a href="/privacy">Privacy</a>
         <span class="footer-sep" aria-hidden="true">·</span>
-        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/terms">Terms</a>
         <span class="footer-sep" aria-hidden="true">·</span>
         <a href="mailto:support@eyenewz.com">support@eyenewz.com</a>
       </nav>
       <p>&copy; 2026 EyeNewz. All rights reserved.</p>
     </div>
   </footer>
+  <script src="js/main.js" defer></script>
 </body>
 </html>

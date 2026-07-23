@@ -14,6 +14,10 @@ rsync -a --delete \
   --exclude 'README.md' \
   --exclude '.git/' \
   "$ROOT/" "$LANDING_DEST/"
+cp -f "$ROOT/robots.txt" "$LANDING_DEST/robots.txt"
+cp -f "$ROOT/sitemap.xml" "$LANDING_DEST/sitemap.xml"
+test -f "$LANDING_DEST/assets/og-image.png"
+test -f "$LANDING_DEST/js/main.js"
 find "$LANDING_DEST" -type f -exec chmod 644 {} \;
 find "$LANDING_DEST" -type d -exec chmod 755 {} \;
 
@@ -28,3 +32,4 @@ chmod 644 "$LEGACY_LEGAL"/*.html
 
 echo "Landing page synced to $LANDING_DEST"
 echo "Legal pages synced to $LEGAL_DEST and $LEGACY_LEGAL"
+echo "SEO: robots.txt sitemap.xml og-image.png present"
