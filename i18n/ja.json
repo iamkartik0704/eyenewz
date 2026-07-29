@@ -1,0 +1,29 @@
+{
+  "locale": "ja",
+  "brand": {
+    "name": "EyeNewz",
+    "tagline": "Tech News & Daily Briefs"
+  },
+  "nav": {
+    "forYou": "おすすめ",
+    "india": "インド",
+    "world": "世界",
+    "tech": "テック＆サイエンス",
+    "company": "会社情報",
+    "publishers": "出版社向け",
+    "advertisers": "広告主向け",
+    "press": "プレス",
+    "signIn": "サインイン"
+  },
+  "markets": {
+    "global": "グローバル",
+    "india": "インド",
+    "comingSoon": "JP · DE 近日"
+  },
+  "trustStrip": "要約 · 元記事へリンク · 全文スクレイピングなし",
+  "consent": {
+    "body": "EyeNewzの運営に必要なCookieを使用します。任意の分析は同意後のみです。",
+    "essential": "必須のみ",
+    "accept": "同意する"
+  }
+}

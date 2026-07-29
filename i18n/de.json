@@ -1,0 +1,29 @@
+{
+  "locale": "de",
+  "brand": {
+    "name": "EyeNewz",
+    "tagline": "Tech News & Daily Briefs"
+  },
+  "nav": {
+    "forYou": "Für dich",
+    "india": "Indien",
+    "world": "Welt",
+    "tech": "Tech & Wissenschaft",
+    "company": "Unternehmen",
+    "publishers": "Verlage",
+    "advertisers": "Werbetreibende",
+    "press": "Presse",
+    "signIn": "Anmelden"
+  },
+  "markets": {
+    "global": "Global",
+    "india": "Indien",
+    "comingSoon": "JP · DE bald"
+  },
+  "trustStrip": "Kurzfassungen · Originalquellen · Kein Vollartikel-Scraping",
+  "consent": {
+    "body": "Wir verwenden essenzielle Cookies für EyeNewz. Optionale Analysen nur mit Ihrer Zustimmung.",
+    "essential": "Nur essenziell",
+    "accept": "Akzeptieren"
+  }
+}

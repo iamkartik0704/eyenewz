@@ -1,0 +1,29 @@
+{
+  "locale": "en",
+  "brand": {
+    "name": "EyeNewz",
+    "tagline": "Tech News & Daily Briefs"
+  },
+  "nav": {
+    "forYou": "For You",
+    "india": "India",
+    "world": "World",
+    "tech": "Tech & Science",
+    "company": "Company",
+    "publishers": "Publishers",
+    "advertisers": "Advertisers",
+    "press": "Press",
+    "signIn": "Sign in"
+  },
+  "markets": {
+    "global": "Global",
+    "india": "India",
+    "comingSoon": "JP · DE soon"
+  },
+  "trustStrip": "Summaries · Original sources · No full-article scrape",
+  "consent": {
+    "body": "We use essential cookies to run EyeNewz. Optional analytics load only if you accept.",
+    "essential": "Essential only",
+    "accept": "Accept"
+  }
+}
