@@ -18,6 +18,8 @@
   let activeCategory = "";
   let activeLabel = "For You";
   let activeMarket = localStorage.getItem("eyenewz_market") || "global";
+  const seenIds = new Set();
+  const seenImageUrls = new Set();
 
   const MARKET_DEFAULTS = {
     global: {
@@ -257,6 +259,8 @@
 
     if (reset) {
       nextCursor = null;
+      seenIds.clear();
+      seenImageUrls.clear();
       feedList.innerHTML = "";
       setStatus("Loading stories…");
       loadMoreBtn.hidden = true;
@@ -296,10 +300,24 @@
       }
 
       setStatus("");
-      feedList.insertAdjacentHTML(
-        "beforeend",
-        articles.map(cardHtml).join(""),
-      );
+      const unique = [];
+      for (const article of articles) {
+        const id = String(article.id || "").trim();
+        if (id && seenIds.has(id)) continue;
+        const imageKey = safeHttpUrl(resolveImage(article).primary);
+        if (imageKey && seenImageUrls.has(imageKey)) continue;
+        if (id) seenIds.add(id);
+        if (imageKey) seenImageUrls.add(imageKey);
+        unique.push(article);
+      }
+      if (unique.length) {
+        feedList.insertAdjacentHTML(
+          "beforeend",
+          unique.map(cardHtml).join(""),
+        );
+      } else if (reset) {
+        setStatus("No stories in this category right now. Try For You.");
+      }
       loadMoreBtn.hidden = !nextCursor;
       loadMoreBtn.textContent = "Load more";
     } catch (err) {

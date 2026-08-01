@@ -60,7 +60,7 @@
         "@id": "https://eyenewz.com/#nav-about",
         "name": "About",
         "url": "https://eyenewz.com/about",
-        "description": "Who we are — Tech News & Daily Briefs.",
+        "description": "Who we are — Tech News & Daily Briefs."
       },
       {
         "@type": "SiteNavigationElement",
@@ -103,10 +103,16 @@
   </script>
 </head>
 <body class="feed-app">
-  <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="left-nav">
-    <span class="nav-toggle-bars" aria-hidden="true"></span>
-    <span class="visually-hidden">Menu</span>
-  </button>
+  <header class="mobile-topbar" id="mobile-topbar">
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="left-nav">
+      <span class="nav-toggle-bars" aria-hidden="true"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+    <a href="/" class="mobile-brand" aria-label="EyeNewz home">
+      <img src="assets/logo.svg" alt="" width="28" height="28" />
+      <span>EyeNewz</span>
+    </a>
+  </header>
   <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
   <div class="app-shell">
