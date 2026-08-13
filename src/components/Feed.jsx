@@ -198,7 +198,7 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
 
   // TODO: replace client-side filter with API call once search endpoint exists
   const filteredArticles = baseArticles.filter(a => {
-    const matchSearch = a.headline.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) || 
+    const matchSearch = (a.headline || "").toLowerCase().includes(debouncedSearchQuery.toLowerCase()) || 
       (a.publisherName && a.publisherName.toLowerCase().includes(debouncedSearchQuery.toLowerCase()));
     const matchPublisher = activePublisher ? a.publisherName === activePublisher : true;
     return matchSearch && matchPublisher;
@@ -217,7 +217,7 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
     }
   };
 
-  const isForYou = activeCategory && activeCategory.startsWith('foryou');
+  const isForYou = activeLabel && activeLabel.includes('For You');
 
   return (
     <main className="feed-main" aria-label="Main feed">
