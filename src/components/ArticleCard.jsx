@@ -430,44 +430,57 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       {isExpanded && (
         <div className="modal" id={`article-modal-${article.id}`}>
           <div className="modal-backdrop" onClick={() => setIsExpanded(false)}></div>
-          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby={`article-title-${article.id}`} style={{ maxWidth: '600px', width: '90%' }}>
-            <button type="button" className="modal-close" onClick={() => setIsExpanded(false)} aria-label="Close">&times;</button>
-            
-            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <span className="pub-avatar" aria-hidden="true" style={{ width: '32px', height: '32px', fontSize: '0.85rem' }}>{initial}</span>
-              <div className="pub-meta">
-                <strong>{publisher}</strong>
-                <span className="time">{when ? when : "Just now"}{article.category ? ` · ${article.category}` : ""}</span>
-              </div>
-            </div>
+          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby={`article-title-${article.id}`} style={{ maxWidth: '640px', width: '92%', padding: 0, overflow: 'hidden' }}>
             
             {currentImage && (
-              <div style={{ margin: '0 -2rem 1.5rem', maxHeight: '300px', overflow: 'hidden' }}>
+              <div style={{ width: '100%', height: '260px', position: 'relative', backgroundColor: 'var(--border)' }}>
                 <img src={currentImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 80px)' }}></div>
               </div>
             )}
             
-            <h2 id={`article-title-${article.id}`} style={{ fontSize: '1.5rem', marginBottom: '1rem', lineHeight: 1.3 }}>
-              {headline}
-            </h2>
+            <button 
+              type="button" 
+              className="modal-close" 
+              onClick={() => setIsExpanded(false)} 
+              aria-label="Close"
+              style={currentImage ? { color: '#fff', textShadow: '0 1px 4px rgba(0,0,0,0.8)', top: '10px', right: '12px' } : { top: '10px', right: '12px' }}
+            >&times;</button>
             
-            <div className="article-summary" style={{ whiteSpace: 'pre-wrap', fontSize: '1.05rem', marginBottom: '1.5rem', color: 'var(--ink)' }}>
-              {article.summary}
-            </div>
-
-            {article.whyItMatters && (
-              <div className="why-it-matters" style={{ backgroundColor: 'var(--surface-hover)', padding: '1.25rem', borderRadius: '8px', marginBottom: '1.5rem', borderLeft: '4px solid var(--accent)' }}>
-                <strong style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--accent)' }}>Why it matters</strong>
-                <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{article.whyItMatters}</p>
+            <div style={{ padding: '1.5rem 1.75rem 2rem' }}>
+              <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                <span className="pub-avatar" aria-hidden="true" style={{ width: '38px', height: '38px', fontSize: '0.95rem' }}>{initial}</span>
+                <div className="pub-meta">
+                  <strong style={{ fontSize: '1.05rem', color: 'var(--ink)' }}>{publisher}</strong>
+                  <span className="time" style={{ fontSize: '0.9rem', color: 'var(--ink-muted)', marginTop: '2px', display: 'block' }}>
+                    {when ? when : "Just now"}
+                    {article.category ? ` · ${article.category.split(',').slice(0, 2).map(c => c.trim()).join(', ')}` : ""}
+                  </span>
+                </div>
               </div>
-            )}
+              
+              <h2 id={`article-title-${article.id}`} style={{ fontSize: '1.8rem', marginBottom: '1.25rem', lineHeight: 1.25, color: 'var(--ink)', fontWeight: 800, letterSpacing: '-0.02em' }}>
+                {headline}
+              </h2>
+              
+              <div className="article-summary" style={{ whiteSpace: 'pre-wrap', fontSize: '1.15rem', lineHeight: 1.65, marginBottom: '2rem', color: 'var(--ink)' }}>
+                {article.summary}
+              </div>
 
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
-              <button className="btn-secondary" onClick={() => setIsExpanded(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'transparent', cursor: 'pointer' }}>Close</button>
-              <a href={href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', padding: '0.75rem 1.25rem', backgroundColor: 'var(--accent)', color: '#fff', borderRadius: '4px', fontWeight: 500 }}>
-                Read Source
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '0.5rem' }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
+              {article.whyItMatters && (
+                <div className="why-it-matters" style={{ backgroundColor: 'var(--surface-hover)', padding: '1.25rem 1.5rem', borderRadius: '12px', marginBottom: '2rem', borderLeft: '4px solid var(--accent)' }}>
+                  <strong style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--accent)', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>Why it matters</strong>
+                  <p style={{ margin: 0, color: 'var(--ink-subtle)', lineHeight: 1.55, fontSize: '1.05rem' }}>{article.whyItMatters}</p>
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', paddingTop: '1.5rem', borderTop: '1px solid var(--border)' }}>
+                <button className="btn-secondary" onClick={() => setIsExpanded(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '8px', border: '1px solid var(--border)', background: 'transparent', cursor: 'pointer', fontWeight: 600, color: 'var(--ink)' }}>Close</button>
+                <a href={href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', padding: '0.75rem 1.25rem', backgroundColor: 'var(--accent)', color: '#fff', borderRadius: '8px', fontWeight: 600 }}>
+                  Read Source
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '0.5rem' }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
