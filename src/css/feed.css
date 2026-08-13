@@ -754,9 +754,12 @@ a:hover {
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-backdrop {
@@ -770,6 +773,7 @@ a:hover {
   position: relative;
   z-index: 1;
   width: min(400px, 100%);
+  margin: auto;
   background: var(--surface);
   border-radius: 18px;
   padding: 1.7rem 1.45rem 1.4rem;

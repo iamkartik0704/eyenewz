@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Feed from './components/Feed';
 import RightRail from './components/RightRail';
 import SignInModal from './components/SignInModal';
 import WaitlistModal from './components/WaitlistModal';
 import BackToTop from './components/BackToTop';
+import ArticlePage from './components/ArticlePage';
 
 export const MARKET_DEFAULTS = {
   global: {
@@ -96,8 +98,10 @@ function App() {
   };
 
   return (
-    <>
-      <header className="mobile-topbar" id="mobile-topbar">
+    <Routes>
+      <Route path="/" element={
+        <>
+          <header className="mobile-topbar" id="mobile-topbar">
         <button 
           type="button" 
           className="nav-toggle" 
@@ -162,10 +166,13 @@ function App() {
         <RightRail />
       </div>
 
-      <SignInModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-      <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
-      <BackToTop />
-    </>
+          <SignInModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+          <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
+          <BackToTop />
+        </>
+      } />
+      <Route path="/article/:id" element={<ArticlePage />} />
+    </Routes>
   );
 }
 
