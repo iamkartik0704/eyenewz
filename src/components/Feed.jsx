@@ -22,6 +22,15 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
     }
   });
 
+  const [likes, setLikes] = useState(() => {
+    try {
+      const saved = localStorage.getItem("eyenewz_likes");
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
   const observerTarget = useRef(null);
   const fetchingRef = useRef(false);
   const initialFetchDone = useRef(false);
@@ -126,18 +135,37 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
     };
   }, [observerTarget, nextCursor, loading, fetchFeed]);
 
-  const toggleBookmark = (article) => {
+  useEffect(() => {
+    localStorage.setItem("eyenewz_bookmarks", JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  useEffect(() => {
+    localStorage.setItem("eyenewz_likes", JSON.stringify(likes));
+  }, [likes]);
+
+  const toggleBookmark = useCallback((article) => {
     setBookmarks(prev => {
-      const next = { ...prev };
-      if (next[article.id]) {
-        delete next[article.id];
+      const newB = { ...prev };
+      if (newB[article.id]) {
+        delete newB[article.id];
       } else {
-        next[article.id] = article;
+        newB[article.id] = article;
       }
-      localStorage.setItem("eyenewz_bookmarks", JSON.stringify(next));
-      return next;
+      return newB;
     });
-  };
+  }, []);
+
+  const toggleLike = useCallback((id) => {
+    setLikes(prev => {
+      const newL = { ...prev };
+      if (newL[id]) {
+        delete newL[id];
+      } else {
+        newL[id] = true;
+      }
+      return newL;
+    });
+  }, []);
 
   const filteredArticles = articles.filter(a => 
     a.headline.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -174,6 +202,8 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
             article={article} 
             isBookmarked={!!bookmarks[article.id]}
             toggleBookmark={toggleBookmark}
+            isLiked={!!likes[article.id]}
+            toggleLike={toggleLike}
             searchQuery={searchQuery}
           />
         ))}

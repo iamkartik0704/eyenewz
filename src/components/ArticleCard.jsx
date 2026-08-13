@@ -197,8 +197,7 @@ function getHighlightedText(text, highlight) {
   );
 }
 
-function ArticleCard({ article, isBookmarked, toggleBookmark, searchQuery = "" }) {
-  const [isLiked, setIsLiked] = useState(false);
+function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLike, searchQuery = "" }) {
   const [copied, setCopied] = useState(false);
   
   const { primary: image, fallbacks } = resolveImage(article);
@@ -278,9 +277,9 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, searchQuery = "" }
               className={`icon-btn action-like ${isLiked ? 'is-liked' : ''}`} 
               aria-label="Like" 
               aria-pressed={isLiked}
-              onClick={() => setIsLiked(!isLiked)}
+              onClick={() => toggleLike(article.id)}
             >
-              {iconThumb()} Like
+              {iconThumb()} {isLiked ? 'Liked' : 'Like'}
             </button>
             
             <button 
