@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import ArticleCard from './ArticleCard';
 import SkeletonCard from './SkeletonCard';
 
@@ -182,11 +182,27 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
     ? Object.values(bookmarks).sort((a, b) => b.publishedAtEpochMillis - a.publishedAtEpochMillis)
     : articles;
 
+  const [activePublisher, setActivePublisher] = useState(null);
+
+  useEffect(() => {
+    setActivePublisher(null);
+  }, [activeCategory, activeMarket, showBookmarks]);
+
+  const publishers = useMemo(() => {
+    const pubs = new Set();
+    baseArticles.forEach(a => {
+      if (a.publisherName) pubs.add(a.publisherName);
+    });
+    return Array.from(pubs).sort();
+  }, [baseArticles]);
+
   // TODO: replace client-side filter with API call once search endpoint exists
-  const filteredArticles = baseArticles.filter(a => 
-    a.headline.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) || 
-    (a.publisherName && a.publisherName.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
-  );
+  const filteredArticles = baseArticles.filter(a => {
+    const matchSearch = a.headline.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) || 
+      (a.publisherName && a.publisherName.toLowerCase().includes(debouncedSearchQuery.toLowerCase()));
+    const matchPublisher = activePublisher ? a.publisherName === activePublisher : true;
+    return matchSearch && matchPublisher;
+  });
 
   return (
     <main className="feed-main" aria-label="Main feed">
@@ -208,6 +224,30 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
         </div>
         {searchQuery && (
           <p className="search-results-text">Found {filteredArticles.length} {filteredArticles.length === 1 ? 'article' : 'articles'}</p>
+        )}
+        {publishers.length > 0 && (
+          <div className="publisher-chips" style={{ display: 'flex', gap: '0.5rem', overflowX: 'auto', paddingBottom: '0.5rem', scrollbarWidth: 'none', marginTop: '0.75rem' }}>
+            {publishers.map(pub => (
+              <button
+                key={pub}
+                className={`btn-filter-chip ${activePublisher === pub ? 'is-active' : ''}`}
+                onClick={() => setActivePublisher(prev => prev === pub ? null : pub)}
+                style={{
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '100px',
+                  border: '1px solid var(--border)',
+                  background: activePublisher === pub ? 'var(--ink)' : 'var(--surface-alt)',
+                  color: activePublisher === pub ? 'var(--surface)' : 'var(--ink)',
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {pub}
+              </button>
+            ))}
+          </div>
         )}
       </div>
 
