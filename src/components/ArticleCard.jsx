@@ -199,6 +199,18 @@ function getHighlightedText(text, highlight) {
 
 function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLike, searchQuery = "" }) {
   const [copied, setCopied] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    if (isExpanded) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isExpanded]);
   
   const { primary: image, fallbacks } = resolveImage(article);
   const [currentImage, setCurrentImage] = useState(safeHttpUrl(image));
@@ -253,7 +265,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
         </div>
         
         {currentImage && (
-          <a className="article-media" href={href} target="_blank" rel="noopener noreferrer">
+          <a className="article-media" href="#" onClick={(e) => { e.preventDefault(); setIsExpanded(true); }}>
             <img 
               src={currentImage} 
               alt="" 
@@ -266,7 +278,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
         )}
         
         <h2 className="article-headline">
-          <a href={href} target="_blank" rel="noopener noreferrer">{getHighlightedText(headline, searchQuery)}</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); setIsExpanded(true); }}>{getHighlightedText(headline, searchQuery)}</a>
         </h2>
         <p className="article-summary">{summary}</p>
         
@@ -304,6 +316,52 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
           <a className="action-source" href={href} target="_blank" rel="noopener noreferrer">Read source</a>
         </div>
       </div>
+      {/* Expanded Modal */}
+      {isExpanded && (
+        <div className="modal" id={`article-modal-${article.id}`}>
+          <div className="modal-backdrop" onClick={() => setIsExpanded(false)}></div>
+          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby={`article-title-${article.id}`} style={{ maxWidth: '600px', width: '90%' }}>
+            <button type="button" className="modal-close" onClick={() => setIsExpanded(false)} aria-label="Close">&times;</button>
+            
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span className="pub-avatar" aria-hidden="true" style={{ width: '32px', height: '32px', fontSize: '0.85rem' }}>{initial}</span>
+              <div className="pub-meta">
+                <strong>{publisher}</strong>
+                <span className="time">{when ? when : "Just now"}{article.category ? ` · ${article.category}` : ""}</span>
+              </div>
+            </div>
+            
+            {currentImage && (
+              <div style={{ margin: '0 -2rem 1.5rem', maxHeight: '300px', overflow: 'hidden' }}>
+                <img src={currentImage} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+            )}
+            
+            <h2 id={`article-title-${article.id}`} style={{ fontSize: '1.5rem', marginBottom: '1rem', lineHeight: 1.3 }}>
+              {headline}
+            </h2>
+            
+            <div className="article-summary" style={{ whiteSpace: 'pre-wrap', fontSize: '1.05rem', marginBottom: '1.5rem', color: 'var(--ink)' }}>
+              {article.summary}
+            </div>
+
+            {article.whyItMatters && (
+              <div className="why-it-matters" style={{ backgroundColor: 'var(--surface-hover)', padding: '1.25rem', borderRadius: '8px', marginBottom: '1.5rem', borderLeft: '4px solid var(--accent)' }}>
+                <strong style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--accent)' }}>Why it matters</strong>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', lineHeight: 1.5 }}>{article.whyItMatters}</p>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'flex-end', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
+              <button className="btn-secondary" onClick={() => setIsExpanded(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '4px', border: '1px solid var(--border)', background: 'transparent', cursor: 'pointer' }}>Close</button>
+              <a href={href} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', padding: '0.75rem 1.25rem', backgroundColor: 'var(--accent)', color: '#fff', borderRadius: '4px', fontWeight: 500 }}>
+                Read Source
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '0.5rem' }}><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   );
 }
