@@ -235,10 +235,9 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
     }
   };
 
-  const handleShare = async () => {
-    // TODO: Implement html2canvas logic here
-    console.log("Would generate image using canvas for article: " + article.id);
+  const [isGenerating, setIsGenerating] = useState(false);
 
+  const handleShare = async () => {
     const url = href;
     const title = headline;
     try {
@@ -253,6 +252,118 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       }
     } catch {
       // user cancelled share
+    }
+  };
+
+  const handleShareAsImage = async () => {
+    if (isGenerating) return;
+    setIsGenerating(true);
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1080;
+      const ctx = canvas.getContext('2d');
+
+      // Background
+      ctx.fillStyle = '#121212';
+      ctx.fillRect(0, 0, 1080, 1080);
+
+      // Branding
+      ctx.fillStyle = '#e30613';
+      ctx.font = 'bold 46px sans-serif';
+      ctx.fillText('EyeNewz', 60, 80);
+
+      ctx.fillStyle = '#9ca3af';
+      ctx.font = '32px sans-serif';
+      ctx.fillText('Tech News & Daily Briefs', 260, 78);
+
+      // Publisher info
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 36px sans-serif';
+      ctx.fillText(publisher, 60, 160);
+      
+      ctx.fillStyle = '#9ca3af';
+      ctx.font = '30px sans-serif';
+      ctx.fillText(when || 'Just now', 60, 210);
+
+      let currentY = 270;
+
+      // Draw image
+      if (currentImage) {
+        try {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.src = currentImage;
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+          // Cover center crop simulation
+          const scale = Math.max(960 / img.width, 500 / img.height);
+          const drawWidth = img.width * scale;
+          const drawHeight = img.height * scale;
+          const offsetX = 60 + (960 - drawWidth) / 2;
+          const offsetY = currentY + (500 - drawHeight) / 2;
+          
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(60, currentY, 960, 500);
+          ctx.clip();
+          ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+          ctx.restore();
+          
+          currentY += 560;
+        } catch (e) {
+          console.warn('Failed to load image for canvas share', e);
+        }
+      }
+
+      // Headline
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 54px sans-serif';
+      const words = headline.split(' ');
+      let line = '';
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if (metrics.width > 960 && n > 0) {
+          ctx.fillText(line, 60, currentY);
+          line = words[n] + ' ';
+          currentY += 70;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 60, currentY);
+
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+        const file = new File([blob], 'eyenewz-share.png', { type: 'image/png' });
+        
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: headline,
+              text: 'Read more on EyeNewz'
+            });
+          } catch {
+            // Share cancelled
+          }
+        } else {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'eyenewz-share.png';
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        setIsGenerating(false);
+      }, 'image/png');
+
+    } catch (err) {
+      console.error("Error generating image:", err);
+      setIsGenerating(false);
     }
   };
 
@@ -304,6 +415,17 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
               onClick={handleShare}
             >
               {iconShare()} {copied ? "Copied" : "Share"}
+            </button>
+            
+            <button 
+              type="button" 
+              className={`icon-btn action-share-img ${isGenerating ? 'is-generating' : ''}`}
+              aria-label="Share as Image"
+              onClick={handleShareAsImage}
+              disabled={isGenerating}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              {isGenerating ? "Wait..." : "As Image"}
             </button>
 
             <button 
