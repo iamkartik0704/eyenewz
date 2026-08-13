@@ -238,7 +238,8 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleShare = async () => {
-    const url = href;
+    // Generate a link back to our own website instead of the original source
+    const url = `${window.location.origin}/article/${article.id}`;
     const title = headline;
     try {
       if (navigator.share) {
@@ -345,7 +346,8 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
             await navigator.share({
               files: [file],
               title: headline,
-              text: 'Read more on EyeNewz'
+              text: 'Read more on EyeNewz',
+              url: `${window.location.origin}/article/${article.id}`
             });
           } catch {
             // Share cancelled
