@@ -103,7 +103,11 @@ function App() {
           className="nav-toggle" 
           id="nav-toggle" 
           aria-expanded={isNavOpen} 
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={() => {
+            const nextState = !isNavOpen;
+            setIsNavOpen(nextState);
+            if (nextState) setIsRightNavOpen(false);
+          }}
         >
           <span className="nav-toggle-bars" aria-hidden="true"></span>
           <span className="visually-hidden">Menu</span>
@@ -116,7 +120,11 @@ function App() {
           type="button" 
           className="right-nav-toggle" 
           aria-expanded={isRightNavOpen} 
-          onClick={() => setIsRightNavOpen(!isRightNavOpen)}
+          onClick={() => {
+            const nextState = !isRightNavOpen;
+            setIsRightNavOpen(nextState);
+            if (nextState) setIsNavOpen(false);
+          }}
           aria-label="Info"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
