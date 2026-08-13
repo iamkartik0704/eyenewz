@@ -175,7 +175,29 @@ function publisherInitial(name) {
   return /[A-Z0-9]/i.test(letter) ? letter : "N";
 }
 
-function ArticleCard({ article, isBookmarked, toggleBookmark }) {
+function getHighlightedText(text, highlight) {
+  if (!highlight || !highlight.trim()) {
+    return text;
+  }
+  
+  // Split text on highlight term, include term in parts array
+  const regex = new RegExp(`(${highlight})`, 'gi');
+  const parts = String(text).split(regex);
+  
+  return (
+    <>
+      {parts.map((part, i) => 
+        regex.test(part) ? (
+          <mark key={i} className="search-highlight">{part}</mark>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
+function ArticleCard({ article, isBookmarked, toggleBookmark, searchQuery = "" }) {
   const [isLiked, setIsLiked] = useState(false);
   const [copied, setCopied] = useState(false);
   
@@ -245,7 +267,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark }) {
         )}
         
         <h2 className="article-headline">
-          <a href={href} target="_blank" rel="noopener noreferrer">{headline}</a>
+          <a href={href} target="_blank" rel="noopener noreferrer">{getHighlightedText(headline, searchQuery)}</a>
         </h2>
         <p className="article-summary">{summary}</p>
         

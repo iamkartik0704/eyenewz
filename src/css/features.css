@@ -264,3 +264,20 @@
 :root[data-theme='dark'] .search-input {
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+
+.search-results-text {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+}
+.search-highlight {
+  background-color: rgba(255, 77, 77, 0.2);
+  color: inherit;
+  font-weight: 600;
+  border-radius: 2px;
+  padding: 0 2px;
+}
+:root[data-theme='dark'] .search-highlight {
+  background-color: rgba(255, 77, 77, 0.35);
+}

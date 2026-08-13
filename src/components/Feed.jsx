@@ -160,6 +160,9 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
+        {searchQuery && (
+          <p className="search-results-text">Found {filteredArticles.length} {filteredArticles.length === 1 ? 'article' : 'articles'}</p>
+        )}
       </div>
 
       <div className="feed-list">
@@ -169,6 +172,7 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
             article={article} 
             isBookmarked={!!bookmarks[article.id]}
             toggleBookmark={toggleBookmark}
+            searchQuery={searchQuery}
           />
         ))}
         
