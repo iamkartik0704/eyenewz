@@ -173,11 +173,11 @@
     height: 100dvh;
     max-height: 100dvh;
     background: var(--surface);
-    z-index: 1000;
+    z-index: 100;
     transform: translateX(105%);
     transition: transform 0.22s var(--ease);
     border-left: 1px solid var(--border);
-    padding: 1.25rem 1rem 5rem; /* Increased bottom padding */
+    padding: 4.5rem 1rem 5rem; /* Increased top padding to clear pinned topbar */
     overflow-y: auto;
   }
   
