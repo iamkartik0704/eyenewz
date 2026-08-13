@@ -5,7 +5,7 @@ import SkeletonCard from './SkeletonCard';
 const FEED_BASE = "/web-api/v1/feed";
 const PAGE_SIZE = 12;
 
-function Feed({ activeCategory, activeLabel, activeMarket }) {
+function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -109,19 +109,21 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
 
   // Initial fetch when category/market changes
   useEffect(() => {
+    if (showBookmarks) return;
     initialFetchDone.current = false;
     fetchFeed(true);
-  }, [activeCategory, activeMarket]);
+  }, [activeCategory, activeMarket, showBookmarks]);
 
   // Infinite Scroll Observer
   useEffect(() => {
+    if (showBookmarks) return;
     const observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting && nextCursor && !loading) {
           fetchFeed(false);
         }
       },
-      { threshold: 0.1 }
+      { rootMargin: '200px' }
     );
 
     if (observerTarget.current) {
@@ -167,7 +169,11 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
     });
   }, []);
 
-  const filteredArticles = articles.filter(a => 
+  const baseArticles = showBookmarks
+    ? Object.values(bookmarks).sort((a, b) => b.publishedAtEpochMillis - a.publishedAtEpochMillis)
+    : articles;
+
+  const filteredArticles = baseArticles.filter(a => 
     a.headline.toLowerCase().includes(searchQuery.toLowerCase()) || 
     (a.publisherName && a.publisherName.toLowerCase().includes(searchQuery.toLowerCase()))
   );
@@ -196,6 +202,14 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
       </div>
 
       <div className="feed-list">
+        {showBookmarks && filteredArticles.length === 0 && !searchQuery && (
+          <div className="empty-state" style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-secondary)' }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ opacity: 0.5, marginBottom: '1rem' }}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+            <h2>No saved articles yet</h2>
+            <p>Articles you bookmark will appear here.</p>
+          </div>
+        )}
+
         {filteredArticles.map((article) => (
           <ArticleCard 
             key={article.id} 
@@ -208,7 +222,7 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
           />
         ))}
         
-        {loading && (
+        {!showBookmarks && loading && (
           <>
             <SkeletonCard />
             <SkeletonCard />
@@ -218,13 +232,17 @@ function Feed({ activeCategory, activeLabel, activeMarket }) {
         )}
       </div>
       
-      {/* Invisible target for intersection observer */}
-      <div ref={observerTarget} style={{ height: '20px', width: '100%' }}></div>
-      
-      {nextCursor && !loading && (
-        <div className="feed-more-wrap">
-           <button type="button" className="btn-load-more" onClick={() => fetchFeed(false)}>Load more</button>
-        </div>
+      {!showBookmarks && (
+        <>
+          {/* Invisible target for intersection observer */}
+          <div ref={observerTarget} style={{ height: '20px', width: '100%' }}></div>
+          
+          {nextCursor && !loading && (
+            <div className="feed-more-wrap">
+               <button type="button" className="btn-load-more" onClick={() => fetchFeed(false)}>Load more</button>
+            </div>
+          )}
+        </>
       )}
     </main>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { MARKET_DEFAULTS } from '../App';
 
-function Sidebar({ activeMarket, activeCategory, onMarketChange, onNavClick, onOpenSignIn, theme, toggleTheme }) {
+function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, onNavClick, onSavedClick, onOpenSignIn, theme, toggleTheme }) {
   const navItems = [
     { feed: "for-you", category: MARKET_DEFAULTS[activeMarket].forYouCategory, label: "For You", isForYou: true },
     { feed: "india", category: "DistrictNews", label: "India" },
@@ -73,12 +73,22 @@ function Sidebar({ activeMarket, activeCategory, onMarketChange, onNavClick, onO
             <button
               key={item.feed}
               type="button"
-              className={`nav-link ${activeCategory === item.category ? 'is-active' : ''}`}
+              className={`nav-link ${!showBookmarks && activeCategory === item.category ? 'is-active' : ''}`}
               onClick={() => onNavClick(item.category, item.label, item.isForYou)}
             >
               {item.label}
             </button>
           ))}
+          <button
+            type="button"
+            className={`nav-link ${showBookmarks ? 'is-active' : ''}`}
+            onClick={onSavedClick}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill={showBookmarks ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              Saved
+            </span>
+          </button>
         </nav>
 
         <button type="button" className="btn-signin" onClick={onOpenSignIn}>Sign in</button>

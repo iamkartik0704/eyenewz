@@ -20,6 +20,7 @@ function App() {
   const [activeMarket, setActiveMarket] = useState(() => localStorage.getItem("eyenewz_market") || "global");
   const [activeCategory, setActiveCategory] = useState(MARKET_DEFAULTS[activeMarket].forYouCategory);
   const [activeLabel, setActiveLabel] = useState(MARKET_DEFAULTS[activeMarket].forYouLabel);
+  const [showBookmarks, setShowBookmarks] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isRightNavOpen, setIsRightNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,8 +48,15 @@ function App() {
   };
 
   const handleNavClick = (category, label, isForYou) => {
+    setShowBookmarks(false);
     setActiveCategory(category);
     setActiveLabel(isForYou ? MARKET_DEFAULTS[activeMarket].forYouLabel : label);
+    setIsNavOpen(false);
+  };
+
+  const handleSavedClick = () => {
+    setShowBookmarks(true);
+    setActiveLabel("Saved Articles");
     setIsNavOpen(false);
   };
 
@@ -57,6 +65,7 @@ function App() {
     localStorage.setItem("eyenewz_market", market);
     setActiveCategory(MARKET_DEFAULTS[market].forYouCategory);
     setActiveLabel(MARKET_DEFAULTS[market].forYouLabel);
+    setShowBookmarks(false);
   };
 
   return (
@@ -98,8 +107,10 @@ function App() {
         <Sidebar 
           activeMarket={activeMarket}
           activeCategory={activeCategory}
+          showBookmarks={showBookmarks}
           onMarketChange={handleMarketChange}
           onNavClick={handleNavClick}
+          onSavedClick={handleSavedClick}
           onOpenSignIn={() => setIsModalOpen(true)}
           theme={theme}
           toggleTheme={toggleTheme}
@@ -109,6 +120,7 @@ function App() {
           activeCategory={activeCategory} 
           activeLabel={activeLabel} 
           activeMarket={activeMarket}
+          showBookmarks={showBookmarks}
         />
         
         <RightRail />
