@@ -204,11 +204,43 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
     return matchSearch && matchPublisher;
   });
 
+  const [isPlayingBrief, setIsPlayingBrief] = useState(false);
+
+  const toggleListen = () => {
+    // TODO: Implement actual TTS logic
+    if (isPlayingBrief) {
+      console.log("Paused TTS brief");
+      setIsPlayingBrief(false);
+    } else {
+      console.log("Playing TTS brief");
+      setIsPlayingBrief(true);
+    }
+  };
+
+  const isForYou = activeCategory && activeCategory.startsWith('foryou');
+
   return (
     <main className="feed-main" aria-label="Main feed">
-      <header className="feed-header">
-        <h1 className="feed-title">{activeLabel}</h1>
-        <p className="feed-subtitle">Summaries · Original sources · No full-article scrape</p>
+      <header className="feed-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+        <div>
+          <h1 className="feed-title">{activeLabel}</h1>
+          <p className="feed-subtitle">Summaries · Original sources · No full-article scrape</p>
+        </div>
+        {isForYou && !showBookmarks && (
+          <button 
+            className="btn-listen"
+            onClick={toggleListen}
+            aria-label={isPlayingBrief ? "Pause brief" : "Listen to brief"}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', borderRadius: '100px', border: '1px solid var(--accent)', backgroundColor: isPlayingBrief ? 'var(--accent)' : 'transparent', color: isPlayingBrief ? '#fff' : 'var(--accent)', cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', transition: 'all 0.2s' }}
+          >
+            {isPlayingBrief ? (
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+            ) : (
+               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            )}
+            {isPlayingBrief ? "Pause" : "Listen"}
+          </button>
+        )}
       </header>
       
       <div className="search-section">
