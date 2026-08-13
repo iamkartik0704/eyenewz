@@ -18,16 +18,20 @@ export const MARKET_DEFAULTS = {
 };
 
 function App() {
-  const [activeMarket, setActiveMarket] = useState(() => localStorage.getItem("eyenewz_market") || "global");
+  const [activeMarket, setActiveMarket] = useState(() => {
+    const savedMarket = localStorage.getItem("eyenewz_market");
+    return MARKET_DEFAULTS[savedMarket] ? savedMarket : "global";
+  });
   
   const getSavedNav = (market) => {
     try {
       const saved = localStorage.getItem(`eyenewz_last_category_${market}`);
       if (saved) return JSON.parse(saved);
     } catch {}
+    const defaults = MARKET_DEFAULTS[market] || MARKET_DEFAULTS["global"];
     return { 
-      category: MARKET_DEFAULTS[market].forYouCategory, 
-      label: MARKET_DEFAULTS[market].forYouLabel 
+      category: defaults.forYouCategory, 
+      label: defaults.forYouLabel 
     };
   };
 
