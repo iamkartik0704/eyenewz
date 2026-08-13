@@ -1,7 +1,7 @@
 import React from 'react';
 import { MARKET_DEFAULTS } from '../App';
 
-function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, onNavClick, onSavedClick, onOpenSignIn, theme, toggleTheme }) {
+function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, onNavClick, onSavedClick, onOpenSignIn, onOpenWaitlist, theme, toggleTheme }) {
   const navItems = [
     { feed: "for-you", category: MARKET_DEFAULTS[activeMarket].forYouCategory, label: "For You", isForYou: true },
     { feed: "india", category: "DistrictNews", label: "India" },
@@ -66,7 +66,9 @@ function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, 
             >
               India
             </button>
-            <span className="market-soon" title="Coming soon">JP · DE soon</span>
+            <button type="button" className="market-btn market-soon" onClick={onOpenWaitlist} title="Join Waitlist" style={{ textAlign: 'left', cursor: 'pointer' }}>
+              UK (Coming soon)
+            </button>
           </div>
           
           {navItems.map((item) => (

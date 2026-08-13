@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import Feed from './components/Feed';
 import RightRail from './components/RightRail';
 import SignInModal from './components/SignInModal';
+import WaitlistModal from './components/WaitlistModal';
 import BackToTop from './components/BackToTop';
 
 export const MARKET_DEFAULTS = {
@@ -37,6 +38,7 @@ function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isRightNavOpen, setIsRightNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem("eyenewz_theme") || "light");
 
   useEffect(() => {
@@ -48,8 +50,8 @@ function App() {
   }, [isRightNavOpen]);
 
   useEffect(() => {
-    document.body.classList.toggle('modal-open', isModalOpen);
-  }, [isModalOpen]);
+    document.body.classList.toggle('modal-open', isModalOpen || isWaitlistOpen);
+  }, [isModalOpen, isWaitlistOpen]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -133,6 +135,7 @@ function App() {
           onNavClick={handleNavClick}
           onSavedClick={handleSavedClick}
           onOpenSignIn={() => setIsModalOpen(true)}
+          onOpenWaitlist={() => setIsWaitlistOpen(true)}
           theme={theme}
           toggleTheme={toggleTheme}
         />
@@ -148,6 +151,7 @@ function App() {
       </div>
 
       <SignInModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
       <BackToTop />
     </>
   );
