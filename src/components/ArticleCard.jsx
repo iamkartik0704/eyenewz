@@ -236,6 +236,9 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   };
 
   const handleShare = async () => {
+    // TODO: Implement html2canvas logic here
+    console.log("Would generate image using canvas for article: " + article.id);
+
     const url = href;
     const title = headline;
     try {
