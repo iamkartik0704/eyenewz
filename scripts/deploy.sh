@@ -6,6 +6,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 LANDING_DEST="${LANDING_DEST:-/var/www/eyenewz}"
 LEGAL_DEST="${LEGAL_DEST:-/var/www/eyenewz-legal}"
 LEGACY_LEGAL="${LEGACY_LEGAL:-/var/www/trusted-news-legal}"
+TECH_DEST="${TECH_DEST:-/var/www/eyenewz-tech}"
 
 mkdir -p "$LANDING_DEST"
 rsync -a --delete \
@@ -17,7 +18,11 @@ rsync -a --delete \
 cp -f "$ROOT/robots.txt" "$LANDING_DEST/robots.txt"
 cp -f "$ROOT/sitemap.xml" "$LANDING_DEST/sitemap.xml"
 test -f "$LANDING_DEST/assets/og-image.png"
-test -f "$LANDING_DEST/js/main.js"
+test -f "$LANDING_DEST/js/feed.js"
+test -f "$LANDING_DEST/js/api.js"
+test -f "$LANDING_DEST/js/store.js"
+test -f "$LANDING_DEST/js/card.js"
+test -f "$LANDING_DEST/404.html"
 find "$LANDING_DEST" -type f -exec chmod 644 {} \;
 find "$LANDING_DEST" -type d -exec chmod 755 {} \;
 
@@ -37,6 +42,28 @@ cp "$LEGAL_DEST/privacy.html" "$LEGACY_LEGAL/privacy.html"
 cp "$LEGAL_DEST/terms.html" "$LEGACY_LEGAL/terms.html"
 chmod 644 "$LEGACY_LEGAL"/*.html
 
+mkdir -p "$TECH_DEST/assets" "$TECH_DEST/.well-known"
+rsync -a --delete \
+  --exclude 'README.md' \
+  "$ROOT/tech/" "$TECH_DEST/"
+cp -f "$ROOT/assets/logo.svg" "$TECH_DEST/assets/logo.svg"
+cp -f "$ROOT/assets/google-play-badge.svg" "$TECH_DEST/assets/google-play-badge.svg"
+if [[ -f "$ROOT/assets/logo.png" ]]; then
+  cp -f "$ROOT/assets/logo.png" "$TECH_DEST/assets/logo.png"
+fi
+if [[ -f "$ROOT/assets/og-image.png" ]]; then
+  cp -f "$ROOT/assets/og-image.png" "$TECH_DEST/assets/og-image.png"
+fi
+test -f "$TECH_DEST/index.html"
+test -f "$TECH_DEST/js/tech.js"
+test -f "$TECH_DEST/css/tech.css"
+test -f "$TECH_DEST/get.html"
+test -f "$TECH_DEST/robots.txt"
+test -f "$TECH_DEST/sitemap.xml"
+find "$TECH_DEST" -type f -exec chmod 644 {} \;
+find "$TECH_DEST" -type d -exec chmod 755 {} \;
+
 echo "Landing page synced to $LANDING_DEST"
 echo "Legal and marketing pages synced to $LEGAL_DEST and $LEGACY_LEGAL"
+echo "EyeNewz Tech synced to $TECH_DEST"
 echo "SEO: robots.txt sitemap.xml og-image.png present"
