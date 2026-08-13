@@ -210,6 +210,14 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
           </div>
         )}
 
+        {searchQuery && filteredArticles.length === 0 && (
+          <div className="empty-state" style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-secondary)' }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ opacity: 0.5, marginBottom: '1rem' }}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <h2>No results found</h2>
+            <p>We couldn't find any articles matching "{searchQuery}".</p>
+          </div>
+        )}
+
         {filteredArticles.map((article) => (
           <ArticleCard 
             key={article.id} 
