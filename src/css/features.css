@@ -164,18 +164,27 @@
     right: 0;
     bottom: 0;
     width: 280px;
-    max-height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
     background: var(--surface);
     z-index: 1000;
     transform: translateX(105%);
     transition: transform 0.22s var(--ease);
     border-left: 1px solid var(--border);
-    padding: 1.25rem 1rem 1.5rem;
+    padding: 1.25rem 1rem 5rem; /* Increased bottom padding */
     overflow-y: auto;
   }
   
   body.right-nav-open .right-rail {
     transform: translateX(0);
+  }
+
+  .left-nav {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+  .left-nav-inner {
+    padding-bottom: 5rem !important; /* Increased bottom padding */
   }
 }
 
