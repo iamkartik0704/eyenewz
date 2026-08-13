@@ -26,6 +26,12 @@
   border-color: var(--border);
 }
 
+:root[data-theme='dark'] .market-btn.is-active {
+  background: var(--ink);
+  color: var(--surface);
+  border-color: transparent;
+}
+
 :root[data-theme='dark'] .btn-load-more {
   background: var(--surface);
   color: var(--ink);

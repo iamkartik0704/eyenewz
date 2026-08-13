@@ -335,6 +335,9 @@ a:hover {
   font-size: 0.68rem;
   color: var(--ink-subtle);
   padding-left: 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .consent-bar {

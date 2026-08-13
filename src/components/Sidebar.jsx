@@ -66,7 +66,7 @@ function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, 
             >
               India
             </button>
-            <button type="button" className="market-btn market-soon" onClick={onOpenWaitlist} title="Join Waitlist" style={{ textAlign: 'left', cursor: 'pointer' }}>
+            <button type="button" className="market-soon" onClick={onOpenWaitlist} title="Join Waitlist" style={{ textAlign: 'left', cursor: 'pointer' }}>
               UK (Coming soon)
             </button>
           </div>
