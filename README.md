@@ -1,52 +1,51 @@
-# EyeNewz Website
+# EyeNewz website (`eyenewz-website`)
 
-Static landing page and legal pages for [eyenewz.com](https://eyenewz.com).
+Public static site for **eyenewz.com**. This is **not** the admin CMS (`eyenewz-admin`) and **not** the news API (`eyenewz-backend`).
 
-## All pages
+**Who clones this:** frontend / website developers  
+**Live:** https://eyenewz.com  
+**Start here for the whole product:** [eyenewz-docs](https://github.com/Newscontent/eyenewz-docs)
 
-| Page | URL |
-|------|-----|
-| Home (landing) | https://eyenewz.com/ |
-| EyeNewz Tech | https://tech.eyenewz.com/ |
-| Tech download / group share | https://tech.eyenewz.com/get |
-| Contact Us | https://eyenewz.com/contact-us |
-| Privacy Policy | https://eyenewz.com/privacy |
-| Terms & Conditions | https://eyenewz.com/terms |
-
-## Structure
-
-| Path | URL |
-|------|-----|
-| `index.html` | https://eyenewz.com/ |
-| `legal/privacy.html` | https://eyenewz.com/privacy |
-| `legal/terms.html` | https://eyenewz.com/terms |
-
-## Local preview
+## Day-1 setup
 
 ```bash
+git clone git@github.com:Newscontent/eyenewz-website.git
+cd eyenewz-website
 python3 -m http.server 8080
 ```
 
 Open http://localhost:8080
 
-## Deploy to VPS
+## Pages
 
-On the server (after DNS for `eyenewz.com` points to the VPS):
+| Page | URL |
+|------|-----|
+| Home | https://eyenewz.com/ |
+| EyeNewz Tech | https://tech.eyenewz.com/ |
+| Tech download / group share | https://tech.eyenewz.com/get |
+| Contact | https://eyenewz.com/contact-us |
+| Privacy | https://eyenewz.com/privacy |
+| Terms | https://eyenewz.com/terms |
+
+## Deploy
+
+On the VPS (DNS for `eyenewz.com` already points here):
 
 ```bash
 ./scripts/deploy.sh
 ```
 
-This syncs the landing page to `/var/www/eyenewz`, legal pages to `/var/www/eyenewz-legal`, and EyeNewz Tech to `/var/www/eyenewz-tech`.
+Syncs landing to `/var/www/eyenewz`, legal to `/var/www/eyenewz-legal`, Tech to `/var/www/eyenewz-tech`. Nginx for Tech: `eyenewz-backend` `nginx-tech.eyenewz.conf.example`.
 
-DNS: `A tech.eyenewz.com → 76.13.25.110`. Optional `CNAME technology.eyenewz.com → tech.eyenewz.com`. Nginx vhost: `trusted-news/backend/nginx-tech.eyenewz.conf.example`.
+Play Store badge: https://play.google.com/store/apps/details?id=com.prod.contentnews
 
-## Play Store link
+## Related repos
 
-The Google Play badge on the landing page and the footer “Get the app” link open:
+| Repo | Role |
+|------|------|
+| [eyenewz-docs](https://github.com/Newscontent/eyenewz-docs) | Map and onboarding |
+| [eyenewz-android](https://github.com/Newscontent/eyenewz-android) | Play Store app |
+| [eyenewz-backend](https://github.com/Newscontent/eyenewz-backend) | News API |
+| [eyenewz-admin](https://github.com/Newscontent/eyenewz-admin) | Admin UI |
 
-https://play.google.com/store/apps/details?id=com.prod.contentnews
-
-## Related repo
-
-Android app and API: [Newscontent/trusted-news](https://github.com/Newscontent/trusted-news)
+Old GitHub name: `Frontend-website` (redirects here).
