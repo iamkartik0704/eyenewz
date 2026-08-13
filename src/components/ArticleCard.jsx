@@ -242,7 +242,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   };
 
   return (
-    <article className="article-card" data-id={article.id || ""}>
+    <article className="article-card article-fade-in" data-id={article.id || ""}>
       <div className="article-body">
         <div className="article-publisher">
           <span className="pub-avatar" aria-hidden="true">{initial}</span>
