@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 53" width="180" height="53" role="img" aria-label="Get it on Google Play">
+  <rect width="180" height="53" rx="6" fill="#000"/>
+  <g fill="#fff">
+    <path d="M48.5 26.5l-12.8 7.4V19.1l12.8 7.4zm-1.2-11.3L33.2 22.6l14.1 8.1 14.1-8.1-14.1-8.1zM33.2 30.4l14.1 8.1 14.1-8.1-14.1 8.1-14.1-8.1z"/>
+    <path d="M61.4 8.2l-14.1 8.1 14.1 8.1V8.2z" fill="#34A853"/>
+    <path d="M33.2 22.6l14.1-8.1V8.2l-14.1 14.4z" fill="#EA4335"/>
+    <path d="M33.2 22.6v15.9l14.1-8.1-14.1-7.8z" fill="#FBBC04"/>
+    <path d="M47.3 38.5l14.1-8.1-14.1 8.1V38.5z" fill="#4285F4"/>
+  </g>
+  <text x="72" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#fff" opacity="0.9">GET IT ON</text>
+  <text x="72" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#fff">Google Play</text>
+</svg>

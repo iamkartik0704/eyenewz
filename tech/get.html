@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Get EyeNewz — Android app &amp; iOS waitlist</title>
+  <meta name="description" content="Download EyeNewz on Google Play. iOS is not in the App Store yet — join the waitlist and read EyeNewz Tech in the browser." />
+  <link rel="canonical" href="https://tech.eyenewz.com/get" />
+  <meta property="og:title" content="Get EyeNewz — Tech news &amp; daily briefs" />
+  <meta property="og:description" content="Android: Google Play. iPhone: read on the web and join the iOS waitlist. Share https://tech.eyenewz.com/get" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://tech.eyenewz.com/get" />
+  <meta property="og:site_name" content="EyeNewz Tech" />
+  <meta property="og:image" content="https://eyenewz.com/assets/og-image.png?v=20260813" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Get EyeNewz" />
+  <meta name="twitter:description" content="Android on Google Play. iOS waitlist + web. Share this link with your group." />
+  <meta name="twitter:image" content="https://eyenewz.com/assets/og-image.png?v=20260813" />
+  <link rel="stylesheet" href="/css/tech.css?v=20260813b" />
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="tech-app" data-page="get">
+  <header class="tech-header"><div class="tech-header-inner">
+    <a class="tech-brand" href="/"><img src="/assets/logo.svg" alt="" width="32" height="32" /><span>EyeNewz <em>Tech</em></span></a>
+    <nav class="tech-nav"><a href="/">Home</a><a href="/news">News</a><a href="/blogs">Blogs</a><a href="/models">AI Models</a><a href="/videos">Videos</a><a href="/space">Space</a><a href="/gadgets">Gadgets</a><a href="/get" class="is-active">Get the app</a></nav>
+  </div></header>
+  <main class="tech-main">
+    <div class="get-panel">
+      <div>
+        <p class="kicker">Share this link</p>
+        <h1>Get EyeNewz</h1>
+        <p>Tech news, LLM models, and daily briefs. The Android app is live on Google Play. There is no App Store listing yet.</p>
+
+        <div class="android-only">
+          <p>Taking you to Google Play…</p>
+          <a class="play-store-link" href="https://play.google.com/store/apps/details?id=com.prod.contentnews">
+            <img src="/assets/google-play-badge.svg" alt="Get it on Google Play" width="180" height="53" />
+          </a>
+        </div>
+
+        <div class="ios-only">
+          <p><strong>App is on Android today.</strong> Read EyeNewz Tech in the browser, or leave your email for the iOS waitlist.</p>
+          <p><a class="btn-primary" href="/">Open the tech feed</a></p>
+        </div>
+
+        <div class="desktop-only">
+          <p>On a phone? Open this page there. On Android it jumps to Play. On iPhone you get the web feed plus a waitlist.</p>
+          <a class="play-store-link" href="https://play.google.com/store/apps/details?id=com.prod.contentnews">
+            <img src="/assets/google-play-badge.svg" alt="Get it on Google Play" width="180" height="53" />
+          </a>
+          <p><a class="btn-secondary" href="/">Open tech feed</a></p>
+        </div>
+
+        <form id="waitlist-form" class="waitlist">
+          <input type="email" name="email" required placeholder="iOS waitlist email" autocomplete="email" />
+          <button class="btn-primary" type="submit">Notify me on iOS</button>
+        </form>
+        <p id="waitlist-note" class="tiny muted"></p>
+      </div>
+      <aside class="qr-box desktop-only">
+        <p class="tiny">WhatsApp / group share</p>
+        <strong>tech.eyenewz.com/get</strong>
+        <p class="tiny">Point your phone camera at this page, or copy the link.</p>
+        <button type="button" class="btn-secondary" id="copy-link">Copy link</button>
+      </aside>
+    </div>
+  </main>
+  <footer class="tech-footer"><p><a href="https://eyenewz.com/download">eyenewz.com/download</a> · Play-only until iOS ships</p></footer>
+  <script type="module" src="/js/tech.js"></script>
+</body>
+</html>

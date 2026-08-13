@@ -112,6 +112,10 @@
       <img src="assets/logo.svg" alt="" width="28" height="28" />
       <span>EyeNewz</span>
     </a>
+    <label class="mobile-search" for="feed-search-mobile">
+      <span class="visually-hidden">Search stories</span>
+      <input type="search" id="feed-search-mobile" class="search-input" placeholder="Search" autocomplete="off" enterkeyhint="search" />
+    </label>
   </header>
   <div class="nav-backdrop" id="nav-backdrop" hidden></div>
 
@@ -141,6 +145,7 @@
             <span class="market-soon" title="Coming soon">JP · DE soon</span>
           </div>
           <button type="button" class="nav-link is-active" data-feed="for-you" data-label="For You">For You</button>
+          <button type="button" class="nav-link" data-feed="saved" data-label="Saved">Saved</button>
           <button type="button" class="nav-link" data-feed="india" data-category="DistrictNews" data-label="India" data-markets="india">India</button>
           <button type="button" class="nav-link" data-feed="world" data-category="WorldNews" data-label="World">World</button>
           <button type="button" class="nav-link" data-feed="tech" data-category="Technology,DeveloperTools,Science,Space" data-label="Tech &amp; Science">Tech &amp; Science</button>
@@ -159,6 +164,7 @@
           <a href="/press">Press</a>
           <a href="/about">About</a>
           <a href="/how-it-works">How it works</a>
+          <a href="https://tech.eyenewz.com/">Tech hub</a>
           <a href="/download">Download</a>
           <a href="/contact-us">Contact</a>
           <a href="/privacy">Privacy</a>
@@ -169,8 +175,17 @@
 
     <main class="feed-main" id="feed-main">
       <header class="feed-header">
-        <h1 id="feed-title">For You</h1>
-        <p class="feed-sub">Tech News &amp; Daily Briefs</p>
+        <div class="feed-header-row">
+          <div>
+            <h1 id="feed-title">For You</h1>
+            <p class="feed-sub">Tech News &amp; Daily Briefs</p>
+          </div>
+          <div class="search-box desktop-search">
+            <label class="visually-hidden" for="feed-search">Search stories</label>
+            <input type="search" id="feed-search" class="search-input" placeholder="Search stories" autocomplete="off" enterkeyhint="search" />
+            <button type="button" id="search-clear" class="search-clear" hidden aria-label="Clear search">&times;</button>
+          </div>
+        </div>
         <p class="trust-strip">Summaries · Original sources · No full-article scrape</p>
       </header>
       <div id="feed-status" class="feed-status" role="status" aria-live="polite">Loading stories…</div>
@@ -178,6 +193,7 @@
       <div class="feed-more-wrap">
         <button type="button" id="load-more" class="btn-load-more" hidden>Load more</button>
       </div>
+      <div id="feed-toast" class="feed-toast" hidden role="status"></div>
     </main>
 
     <aside class="right-rail" aria-label="Get the app">
@@ -276,7 +292,7 @@
     </div>
   </div>
 
-  <script src="js/feed.js" defer></script>
+  <script type="module" src="js/feed.js"></script>
   <script src="js/consent.js" defer></script>
 </body>
 </html>

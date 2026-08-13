@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.prod.contentnews",
+      "sha256_cert_fingerprints": [
+        "BE:47:C1:36:0E:31:60:AA:7C:F7:4D:7B:38:82:3A:95:15:E0:10:7C:A5:AB:66:0C:68:9F:9B:72:D2:CF:76:1A"
+      ]
+    }
+  }
+]

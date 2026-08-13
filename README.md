@@ -7,6 +7,8 @@ Static landing page and legal pages for [eyenewz.com](https://eyenewz.com).
 | Page | URL |
 |------|-----|
 | Home (landing) | https://eyenewz.com/ |
+| EyeNewz Tech | https://tech.eyenewz.com/ |
+| Tech download / group share | https://tech.eyenewz.com/get |
 | Contact Us | https://eyenewz.com/contact-us |
 | Privacy Policy | https://eyenewz.com/privacy |
 | Terms & Conditions | https://eyenewz.com/terms |
@@ -35,7 +37,9 @@ On the server (after DNS for `eyenewz.com` points to the VPS):
 ./scripts/deploy.sh
 ```
 
-This syncs the landing page to `/var/www/eyenewz` and legal pages to `/var/www/eyenewz-legal`.
+This syncs the landing page to `/var/www/eyenewz`, legal pages to `/var/www/eyenewz-legal`, and EyeNewz Tech to `/var/www/eyenewz-tech`.
+
+DNS: `A tech.eyenewz.com → 76.13.25.110`. Optional `CNAME technology.eyenewz.com → tech.eyenewz.com`. Nginx vhost: `trusted-news/backend/nginx-tech.eyenewz.conf.example`.
 
 ## Play Store link
 
