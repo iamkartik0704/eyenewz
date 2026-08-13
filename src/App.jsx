@@ -18,8 +18,21 @@ export const MARKET_DEFAULTS = {
 
 function App() {
   const [activeMarket, setActiveMarket] = useState(() => localStorage.getItem("eyenewz_market") || "global");
-  const [activeCategory, setActiveCategory] = useState(MARKET_DEFAULTS[activeMarket].forYouCategory);
-  const [activeLabel, setActiveLabel] = useState(MARKET_DEFAULTS[activeMarket].forYouLabel);
+  
+  const getSavedNav = (market) => {
+    try {
+      const saved = localStorage.getItem(`eyenewz_last_category_${market}`);
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return { 
+      category: MARKET_DEFAULTS[market].forYouCategory, 
+      label: MARKET_DEFAULTS[market].forYouLabel 
+    };
+  };
+
+  const initialNav = getSavedNav(activeMarket);
+  const [activeCategory, setActiveCategory] = useState(initialNav.category);
+  const [activeLabel, setActiveLabel] = useState(initialNav.label);
   const [showBookmarks, setShowBookmarks] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isRightNavOpen, setIsRightNavOpen] = useState(false);
@@ -43,6 +56,13 @@ function App() {
     localStorage.setItem("eyenewz_theme", theme);
   }, [theme]);
 
+  useEffect(() => {
+    localStorage.setItem(
+      `eyenewz_last_category_${activeMarket}`, 
+      JSON.stringify({ category: activeCategory, label: activeLabel })
+    );
+  }, [activeCategory, activeLabel, activeMarket]);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
@@ -63,8 +83,9 @@ function App() {
   const handleMarketChange = (market) => {
     setActiveMarket(market);
     localStorage.setItem("eyenewz_market", market);
-    setActiveCategory(MARKET_DEFAULTS[market].forYouCategory);
-    setActiveLabel(MARKET_DEFAULTS[market].forYouLabel);
+    const nav = getSavedNav(market);
+    setActiveCategory(nav.category);
+    setActiveLabel(nav.label);
     setShowBookmarks(false);
   };
 
