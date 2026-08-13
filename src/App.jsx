@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Feed from './components/Feed';
 import RightRail from './components/RightRail';
@@ -7,6 +7,7 @@ import SignInModal from './components/SignInModal';
 import WaitlistModal from './components/WaitlistModal';
 import BackToTop from './components/BackToTop';
 import ArticlePage from './components/ArticlePage';
+import StaticPage from './components/StaticPage';
 
 export const MARKET_DEFAULTS = {
   global: {
@@ -99,7 +100,8 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={
+      <Route path="/article/:id" element={<ArticlePage />} />
+      <Route element={
         <>
           <header className="mobile-topbar" id="mobile-topbar">
         <button 
@@ -156,12 +158,7 @@ function App() {
           toggleTheme={toggleTheme}
         />
         
-        <Feed 
-          activeCategory={activeCategory} 
-          activeLabel={activeLabel} 
-          activeMarket={activeMarket}
-          showBookmarks={showBookmarks}
-        />
+        <Outlet />
         
         <RightRail />
       </div>
@@ -170,8 +167,17 @@ function App() {
           <WaitlistModal isOpen={isWaitlistOpen} onClose={() => setIsWaitlistOpen(false)} />
           <BackToTop />
         </>
-      } />
-      <Route path="/article/:id" element={<ArticlePage />} />
+      }>
+        <Route path="/" element={
+          <Feed 
+            activeCategory={activeCategory} 
+            activeLabel={activeLabel} 
+            activeMarket={activeMarket}
+            showBookmarks={showBookmarks}
+          />
+        } />
+        <Route path="*" element={<StaticPage />} />
+      </Route>
     </Routes>
   );
 }

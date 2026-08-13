@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MARKET_DEFAULTS } from '../App';
 
 function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, onNavClick, onSavedClick, onOpenSignIn, onOpenWaitlist, theme, toggleTheme }) {
@@ -15,13 +16,13 @@ function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, 
   return (
     <aside className="left-nav" id="left-nav" aria-label="Main navigation">
       <div className="left-nav-inner">
-        <a href="/" className="brand" aria-label="EyeNewz home">
+        <Link to="/" className="brand" aria-label="EyeNewz home">
           <span className="brand-row">
             <img src="/assets/logo.svg" alt="" className="brand-icon" width="36" height="36" />
             <span className="brand-name">EyeNewz</span>
           </span>
           <span className="brand-tag">Tech News &amp; Daily Briefs</span>
-        </a>
+        </Link>
 
         <div className="guest-row" style={{ paddingBottom: 0 }}>
           <span className="guest-avatar" aria-hidden="true">G</span>
@@ -97,16 +98,16 @@ function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, 
 
         <nav className="nav-section nav-about" aria-label="About EyeNewz">
           <p className="nav-heading">About EyeNewz</p>
-          <a href="/company">Company</a>
-          <a href="/publishers">Publishers</a>
-          <a href="/advertisers">Advertisers</a>
-          <a href="/press">Press</a>
-          <a href="/about">About</a>
-          <a href="/how-it-works">How it works</a>
-          <a href="/download">Download</a>
-          <a href="/contact-us">Contact</a>
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
+          <Link to="/company">Company</Link>
+          <Link to="/publishers">Publishers</Link>
+          <Link to="/advertisers">Advertisers</Link>
+          <Link to="/press">Press</Link>
+          <Link to="/about">About</Link>
+          <Link to="/how-it-works">How it works</Link>
+          <Link to="/download">Download</Link>
+          <Link to="/contact-us">Contact</Link>
+          <Link to="/privacy">Privacy</Link>
+          <Link to="/terms">Terms</Link>
         </nav>
       </div>
     </aside>
