@@ -430,7 +430,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       {isExpanded && (
         <div className="modal" id={`article-modal-${article.id}`}>
           <div className="modal-backdrop" onClick={() => setIsExpanded(false)}></div>
-          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby={`article-title-${article.id}`} style={{ maxWidth: '640px', width: '92%', padding: 0, overflow: 'hidden' }}>
+          <div className="modal-card" role="dialog" aria-modal="true" aria-labelledby={`article-title-${article.id}`} style={{ maxWidth: '640px', width: '92%', padding: 0, overflowY: 'auto', overflowX: 'hidden', maxHeight: '90vh' }}>
             
             {currentImage && (
               <div style={{ width: '100%', height: '260px', position: 'relative', backgroundColor: 'var(--border)' }}>
@@ -447,7 +447,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
               style={currentImage ? { color: '#fff', textShadow: '0 1px 4px rgba(0,0,0,0.8)', top: '10px', right: '12px' } : { top: '10px', right: '12px' }}
             >&times;</button>
             
-            <div style={{ padding: '1.5rem 1.75rem 2rem' }}>
+            <div style={{ padding: currentImage ? '1.5rem 1.75rem 2rem' : '2.5rem 1.75rem 2rem' }}>
               <div style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
                 <span className="pub-avatar" aria-hidden="true" style={{ width: '38px', height: '38px', fontSize: '0.95rem' }}>{initial}</span>
                 <div className="pub-meta">
