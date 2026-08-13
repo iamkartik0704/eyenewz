@@ -169,13 +169,23 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
     });
   }, []);
 
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
   const baseArticles = showBookmarks
     ? Object.values(bookmarks).sort((a, b) => b.publishedAtEpochMillis - a.publishedAtEpochMillis)
     : articles;
 
+  // TODO: replace client-side filter with API call once search endpoint exists
   const filteredArticles = baseArticles.filter(a => 
-    a.headline.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    (a.publisherName && a.publisherName.toLowerCase().includes(searchQuery.toLowerCase()))
+    a.headline.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) || 
+    (a.publisherName && a.publisherName.toLowerCase().includes(debouncedSearchQuery.toLowerCase()))
   );
 
   return (
@@ -202,7 +212,7 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
       </div>
 
       <div className="feed-list">
-        {showBookmarks && filteredArticles.length === 0 && !searchQuery && (
+        {showBookmarks && filteredArticles.length === 0 && !debouncedSearchQuery && (
           <div className="empty-state" style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-secondary)' }}>
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ opacity: 0.5, marginBottom: '1rem' }}><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
             <h2>No saved articles yet</h2>
@@ -210,11 +220,11 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
           </div>
         )}
 
-        {searchQuery && filteredArticles.length === 0 && (
+        {debouncedSearchQuery && filteredArticles.length === 0 && (
           <div className="empty-state" style={{ textAlign: 'center', padding: '4rem 1rem', color: 'var(--text-secondary)' }}>
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" style={{ opacity: 0.5, marginBottom: '1rem' }}><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             <h2>No results found</h2>
-            <p>We couldn't find any articles matching "{searchQuery}".</p>
+            <p>We couldn't find any articles matching "{debouncedSearchQuery}".</p>
           </div>
         )}
 
