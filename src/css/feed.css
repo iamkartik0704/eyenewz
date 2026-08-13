@@ -840,7 +840,8 @@ body.modal-open {
   display: none;
 }
 
-.nav-toggle {
+.nav-toggle,
+.right-nav-toggle {
   display: none;
   width: 44px;
   height: 44px;
@@ -909,9 +910,14 @@ body.modal-open {
     border-bottom: 1px solid var(--border);
   }
 
-  .nav-toggle {
+  .nav-toggle,
+  .right-nav-toggle {
     display: grid;
     place-items: center;
+  }
+  
+  .right-nav-toggle {
+    margin-left: auto;
   }
 
   .mobile-brand {
