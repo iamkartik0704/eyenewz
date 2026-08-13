@@ -238,25 +238,6 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleShare = async () => {
-    // Generate a link back to our own website instead of the original source
-    const url = `${window.location.origin}/article/${article.id}`;
-    const title = headline;
-    try {
-      if (navigator.share) {
-        await navigator.share({ title, url });
-      } else if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(url);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1400);
-      } else {
-        window.open(url, "_blank", "noopener,noreferrer");
-      }
-    } catch {
-      // user cancelled share
-    }
-  };
-
-  const handleShareAsImage = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
     try {
@@ -353,12 +334,24 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
             // Share cancelled
           }
         } else {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'eyenewz-share.png';
-          a.click();
-          URL.revokeObjectURL(url);
+          // Fallback to native share without file, or clipboard
+          const url = `${window.location.origin}/article/${article.id}`;
+          if (navigator.share) {
+            try {
+              await navigator.share({ title: headline, url });
+            } catch { /* cancelled */ }
+          } else if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(url);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1400);
+          } else {
+            const urlObj = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = urlObj;
+            a.download = 'eyenewz-share.png';
+            a.click();
+            URL.revokeObjectURL(urlObj);
+          }
         }
         setIsGenerating(false);
       }, 'image/png');
@@ -412,22 +405,12 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
             
             <button 
               type="button" 
-              className="icon-btn action-share" 
+              className={`icon-btn action-share ${isGenerating ? 'is-generating' : ''}`}
               aria-label="Share"
               onClick={handleShare}
-            >
-              {iconShare()} {copied ? "Copied" : "Share"}
-            </button>
-            
-            <button 
-              type="button" 
-              className={`icon-btn action-share-img ${isGenerating ? 'is-generating' : ''}`}
-              aria-label="Share as Image"
-              onClick={handleShareAsImage}
               disabled={isGenerating}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '0.4rem' }}><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-              {isGenerating ? "Wait..." : "As Image"}
+              {iconShare()} {isGenerating ? "Wait..." : (copied ? "Copied" : "Share")}
             </button>
 
             <button 
