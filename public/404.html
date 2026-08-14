@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Page not found — EyeNewz</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="That page is not on EyeNewz. Head back to the feed or search for a story." />
+  <link rel="canonical" href="https://eyenewz.com/404" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/feed.css" />
+  <link rel="icon" href="/assets/logo.svg" type="image/svg+xml" />
+  <style>
+    .not-found {
+      max-width: 520px;
+      margin: 4rem auto;
+      padding: 0 1.25rem 3rem;
+      text-align: center;
+    }
+    .not-found-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      color: #111827;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-decoration: none;
+      margin-bottom: 2rem;
+    }
+    .not-found-brand:hover { text-decoration: none; color: #111827; }
+    .not-found h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2rem;
+      letter-spacing: -0.03em;
+    }
+    .not-found p {
+      color: #6b7280;
+      margin: 0 0 1.25rem;
+      line-height: 1.5;
+    }
+    .not-found-search {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0 auto 1.5rem;
+      max-width: 380px;
+    }
+    .not-found-search input {
+      flex: 1;
+      border: 1px solid #e5e7eb;
+      border-radius: 999px;
+      padding: 0.7rem 1rem;
+      font: inherit;
+    }
+    .not-found-search button,
+    .not-found-links a {
+      appearance: none;
+      border: none;
+      background: #e30613;
+      color: #fff;
+      font: inherit;
+      font-weight: 650;
+      padding: 0.7rem 1.1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .not-found-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+    }
+    .not-found-links a.secondary {
+      background: #fff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body class="feed-app">
+  <div class="not-found">
+    <a class="not-found-brand" href="/">
+      <img src="/assets/logo.svg" alt="" width="32" height="32" />
+      <span>EyeNewz</span>
+    </a>
+    <h1>Page not found</h1>
+    <p>That link doesn’t lead anywhere on EyeNewz. Search the feed or head back home.</p>
+    <form class="not-found-search" action="/" method="get" role="search">
+      <label class="visually-hidden" for="q">Search stories</label>
+      <input id="q" name="q" type="search" placeholder="Search stories" autocomplete="off" />
+      <button type="submit">Search</button>
+    </form>
+    <div class="not-found-links">
+      <a href="/">For You</a>
+      <a class="secondary" href="/download">Download</a>
+      <a class="secondary" href="/contact-us">Contact</a>
+    </div>
+  </div>
+</body>
+</html>

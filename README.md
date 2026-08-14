@@ -1,6 +1,6 @@
 # EyeNewz website (`eyenewz-website`)
 
-Public static site for **eyenewz.com**. This is **not** the admin CMS (`eyenewz-admin`) and **not** the news API (`eyenewz-backend`).
+Public site for **eyenewz.com**. This is **not** the admin CMS (`eyenewz-admin`) and **not** the news API (`eyenewz-backend`).
 
 **Who clones this:** frontend / website developers  
 **Live:** https://eyenewz.com  
@@ -11,16 +11,20 @@ Public static site for **eyenewz.com**. This is **not** the admin CMS (`eyenewz-
 ```bash
 git clone git@github.com:Newscontent/eyenewz-website.git
 cd eyenewz-website
-python3 -m http.server 8080
+npm install
+npm run dev
 ```
 
-Open http://localhost:8080
+Open http://localhost:3000
+
+`npm run dev` proxies `/web-api` to production so the feed loads real stories. Production nginx injects the API key; never put a key in frontend JS.
 
 ## Pages
 
 | Page | URL |
 |------|-----|
 | Home | https://eyenewz.com/ |
+| Story | https://eyenewz.com/a/{id} |
 | EyeNewz Tech | https://tech.eyenewz.com/ |
 | Tech download / group share | https://tech.eyenewz.com/get |
 | Contact | https://eyenewz.com/contact-us |
@@ -35,7 +39,9 @@ On the VPS (DNS for `eyenewz.com` already points here):
 ./scripts/deploy.sh
 ```
 
-Syncs landing to `/var/www/eyenewz`, legal to `/var/www/eyenewz-legal`, Tech to `/var/www/eyenewz-tech`. Nginx for Tech: `eyenewz-backend` `nginx-tech.eyenewz.conf.example`.
+Runs `npm ci && npm run build`, then syncs `dist/` to `/var/www/eyenewz`, legal HTML to `/var/www/eyenewz-legal`, Tech to `/var/www/eyenewz-tech`.
+
+Article routes (`/a/…`, `/article/…`) need an nginx fallback to `index.html`. Include `scripts/nginx-spa-locations.conf` in the eyenewz.com server block (before `location /`), then `nginx -t && systemctl reload nginx`.
 
 Play Store badge: https://play.google.com/store/apps/details?id=com.prod.contentnews
 

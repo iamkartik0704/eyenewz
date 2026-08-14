@@ -335,6 +335,9 @@ a:hover {
   font-size: 0.68rem;
   color: var(--ink-subtle);
   padding-left: 0.2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .consent-bar {
@@ -751,9 +754,12 @@ a:hover {
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: grid;
-  place-items: center;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-backdrop {
@@ -767,6 +773,7 @@ a:hover {
   position: relative;
   z-index: 1;
   width: min(400px, 100%);
+  margin: auto;
   background: var(--surface);
   border-radius: 18px;
   padding: 1.7rem 1.45rem 1.4rem;
@@ -837,7 +844,8 @@ body.modal-open {
   display: none;
 }
 
-.nav-toggle {
+.nav-toggle,
+.right-nav-toggle {
   display: none;
   width: 44px;
   height: 44px;
@@ -906,9 +914,14 @@ body.modal-open {
     border-bottom: 1px solid var(--border);
   }
 
-  .nav-toggle {
+  .nav-toggle,
+  .right-nav-toggle {
     display: grid;
     place-items: center;
+  }
+  
+  .right-nav-toggle {
+    margin-left: auto;
   }
 
   .mobile-brand {
@@ -963,7 +976,7 @@ body.modal-open {
   }
 
   .left-nav-inner {
-    padding: 1.25rem 1rem 1.5rem;
+    padding: 4.5rem 1rem 1.5rem;
   }
 
   body.nav-open .left-nav {

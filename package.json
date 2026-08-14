@@ -1,0 +1,32 @@
+{
+  "name": "eyenewz-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "EyeNewz public website (React) for eyenewz.com.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Newscontent/Frontend-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Newscontent/Frontend-website/issues"
+  },
+  "homepage": "https://github.com/Newscontent/Frontend-website#readme",
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.5",
+    "vite": "^8.2.1"
+  }
+}
