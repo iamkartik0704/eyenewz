@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { articleImageSrcset } from '../lib/api';
+import {
+  clipSummary,
+  escapeRegExp,
+  publisherInitial,
+  relativeTime,
+  resolveImage,
+  safeHttpUrl,
+  storyPermalink,
+} from '../lib/article';
 
 function iconThumb() {
   return (
@@ -25,170 +35,18 @@ function iconBookmark(filled) {
   );
 }
 
-function escapeHtml(value) {
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
-function safeHttpUrl(value) {
-  const raw = String(value ?? "").trim();
-  if (!raw) return "";
-  try {
-    const u = new URL(raw);
-    if (u.protocol !== "http:" && u.protocol !== "https:") return "";
-    return u.href;
-  } catch {
-    return "";
-  }
-}
-
-function relativeTime(epochMs) {
-  if (!epochMs) return "";
-  const diff = Date.now() - Number(epochMs);
-  const mins = Math.max(0, Math.floor(diff / 60000));
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m`;
-  const hours = Math.floor(mins / 60);
-  if (hours < 48) return `${hours}h`;
-  const days = Math.floor(hours / 24);
-  if (days < 14) return `${days}d`;
-  try {
-    return new Date(epochMs).toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "short",
-    });
-  } catch {
-    return "";
-  }
-}
-
-function clipSummary(article) {
-  const raw =
-    (article.whyItMatters || "").trim() ||
-    (article.summary || "").trim() ||
-    "";
-  if (!raw) return "Open the source for the full story.";
-  const words = raw.split(/\s+/);
-  if (words.length <= 60) return raw;
-  return `${words.slice(0, 60).join(" ")}…`;
-}
-
-function youtubeIdFromUrl(url) {
-  const raw = String(url || "").trim();
-  if (!raw) return "";
-  try {
-    const u = new URL(raw);
-    const host = u.hostname.replace(/^www\./, "");
-    if (host === "youtu.be") {
-      return u.pathname.split("/").filter(Boolean)[0] || "";
-    }
-    if (host.endsWith("youtube.com") || host.endsWith("youtube-nocookie.com")) {
-      if (u.searchParams.get("v")) return u.searchParams.get("v");
-      const parts = u.pathname.split("/").filter(Boolean);
-      const markers = ["embed", "shorts", "v", "live"];
-      for (let i = 0; i < parts.length - 1; i += 1) {
-        if (markers.includes(parts[i])) return parts[i + 1];
-      }
-    }
-  } catch {
-    /* ignore */
-  }
-  return "";
-}
-
-function looksLikeImageUrl(url) {
-  const raw = String(url || "").trim();
-  if (!/^https?:\/\//i.test(raw)) return false;
-  try {
-    const u = new URL(raw);
-    const host = u.hostname.replace(/^www\./, "");
-    const path = u.pathname.toLowerCase();
-    if (host.endsWith("youtube.com") || host.endsWith("youtube-nocookie.com")) {
-      if (path.startsWith("/v/") || path === "/watch" || path.startsWith("/watch")) {
-        return false;
-      }
-    }
-    if (host === "youtu.be") return false;
-    if (/\.(jpe?g|png|gif|webp|avif)(\?|$)/i.test(path)) return true;
-    if (
-      host.includes("ytimg.com") ||
-      host.includes("ggpht.com") ||
-      host.includes("googleusercontent.com") ||
-      host.includes("twimg.com") ||
-      host.includes("cloudfront.net") ||
-      host.includes("images.") ||
-      host.startsWith("i.") ||
-      path.includes("/thumb") ||
-      path.includes("/image") ||
-      u.searchParams.has("w")
-    ) {
-      return true;
-    }
-    if (path.includes("/v1/articles/") && path.includes("/image")) return true;
-    return false;
-  } catch {
-    return false;
-  }
-}
-
-function resolveImage(article) {
-  const candidates = [];
-  const push = (url) => {
-    const cleaned = String(url || "").trim();
-    if (cleaned && !candidates.includes(cleaned)) candidates.push(cleaned);
-  };
-
-  push(article.imageUrl);
-  push(article.posterUrl);
-  push(article.thumbnailUrl);
-
-  const ytId =
-    youtubeIdFromUrl(article.originalUrl) ||
-    youtubeIdFromUrl(article.thumbnailUrl) ||
-    youtubeIdFromUrl(article.posterUrl) ||
-    youtubeIdFromUrl(article.videoUrl);
-  if (ytId) {
-    push(`https://i.ytimg.com/vi/${ytId}/hqdefault.jpg`);
-    push(`https://i.ytimg.com/vi/${ytId}/mqdefault.jpg`);
-  }
-
-  const usable = candidates.filter(looksLikeImageUrl);
-  const preferred = usable.sort((a, b) => {
-    const aApi = a.includes("/v1/articles/") && a.includes("/image") ? 1 : 0;
-    const bApi = b.includes("/v1/articles/") && b.includes("/image") ? 1 : 0;
-    const aYt = a.includes("ytimg.com") ? -1 : 0;
-    const bYt = b.includes("ytimg.com") ? -1 : 0;
-    return aYt - bYt || aApi - bApi;
-  });
-
-  return {
-    primary: preferred[0] || "",
-    fallbacks: preferred.slice(1),
-  };
-}
-
-function publisherInitial(name) {
-  const cleaned = String(name || "N").trim();
-  const letter = cleaned.charAt(0).toUpperCase();
-  return /[A-Z0-9]/i.test(letter) ? letter : "N";
-}
-
 function getHighlightedText(text, highlight) {
-  if (!highlight || !highlight.trim()) {
-    return text;
-  }
-  
-  // Split text on highlight term, include term in parts array
-  const regex = new RegExp(`(${highlight})`, 'gi');
+  const q = String(highlight || "").trim();
+  if (!q) return text;
+
+  const regex = new RegExp(`(${escapeRegExp(q)})`, "i");
   const parts = String(text).split(regex);
-  
+  const needle = q.toLowerCase();
+
   return (
     <>
-      {parts.map((part, i) => 
-        regex.test(part) ? (
+      {parts.map((part, i) =>
+        part.toLowerCase() === needle ? (
           <mark key={i} className="search-highlight">{part}</mark>
         ) : (
           <span key={i}>{part}</span>
@@ -200,10 +58,16 @@ function getHighlightedText(text, highlight) {
 
 function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLike, searchQuery = "" }) {
   const [copied, setCopied] = useState(false);
-  
+  const [isGenerating, setIsGenerating] = useState(false);
+
   const { primary: image, fallbacks } = resolveImage(article);
   const [currentImage, setCurrentImage] = useState(safeHttpUrl(image));
   const [fallbackIndex, setFallbackIndex] = useState(0);
+
+  useEffect(() => {
+    setCurrentImage(safeHttpUrl(image));
+    setFallbackIndex(0);
+  }, [article.id, image]);
 
   const rawHref = article.originalUrl || "";
   const href = safeHttpUrl(rawHref) || "#";
@@ -212,6 +76,11 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   const summary = clipSummary(article);
   const when = relativeTime(article.publishedAtEpochMillis);
   const initial = publisherInitial(publisher);
+  const permalink = storyPermalink(article.id);
+  const srcsetInfo = article.id ? articleImageSrcset(article.id) : { src: "", srcset: "" };
+  const useSrcset =
+    currentImage &&
+    (currentImage.includes("/image") || currentImage === safeHttpUrl(srcsetInfo.src));
 
   const safeFallbacks = fallbacks.map(safeHttpUrl).filter(Boolean);
 
@@ -224,8 +93,6 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
     }
   };
 
-  const [isGenerating, setIsGenerating] = useState(false);
-
   const handleShare = async () => {
     if (isGenerating) return;
     setIsGenerating(true);
@@ -235,11 +102,9 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       canvas.height = 1080;
       const ctx = canvas.getContext('2d');
 
-      // Background
       ctx.fillStyle = '#121212';
       ctx.fillRect(0, 0, 1080, 1080);
 
-      // Branding
       ctx.fillStyle = '#e30613';
       ctx.font = 'bold 46px sans-serif';
       ctx.fillText('EyeNewz', 60, 80);
@@ -248,18 +113,16 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       ctx.font = '32px sans-serif';
       ctx.fillText('Tech News & Daily Briefs', 260, 78);
 
-      // Publisher info
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 36px sans-serif';
       ctx.fillText(publisher, 60, 160);
-      
+
       ctx.fillStyle = '#9ca3af';
       ctx.font = '30px sans-serif';
       ctx.fillText(when || 'Just now', 60, 210);
 
       let currentY = 270;
 
-      // Draw image
       if (currentImage) {
         try {
           const img = new Image();
@@ -269,27 +132,25 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
             img.onload = resolve;
             img.onerror = reject;
           });
-          // Cover center crop simulation
           const scale = Math.max(960 / img.width, 500 / img.height);
           const drawWidth = img.width * scale;
           const drawHeight = img.height * scale;
           const offsetX = 60 + (960 - drawWidth) / 2;
           const offsetY = currentY + (500 - drawHeight) / 2;
-          
+
           ctx.save();
           ctx.beginPath();
           ctx.rect(60, currentY, 960, 500);
           ctx.clip();
           ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
           ctx.restore();
-          
+
           currentY += 560;
         } catch (e) {
           console.warn('Failed to load image for canvas share', e);
         }
       }
 
-      // Headline
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 54px sans-serif';
       const words = headline.split(' ');
@@ -308,39 +169,38 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
       ctx.fillText(line, 60, currentY);
 
       canvas.toBlob(async (blob) => {
-        if (!blob) return;
+        if (!blob) {
+          setIsGenerating(false);
+          return;
+        }
         const file = new File([blob], 'eyenewz-share.png', { type: 'image/png' });
-        
+
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           try {
             await navigator.share({
               files: [file],
               title: headline,
               text: 'Read more on EyeNewz',
-              url: `${window.location.origin}/article/${article.id}`
+              url: permalink,
             });
           } catch {
             // Share cancelled
           }
+        } else if (navigator.share) {
+          try {
+            await navigator.share({ title: headline, url: permalink });
+          } catch { /* cancelled */ }
+        } else if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(permalink);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1400);
         } else {
-          // Fallback to native share without file, or clipboard
-          const url = `${window.location.origin}/article/${article.id}`;
-          if (navigator.share) {
-            try {
-              await navigator.share({ title: headline, url });
-            } catch { /* cancelled */ }
-          } else if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(url);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1400);
-          } else {
-            const urlObj = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = urlObj;
-            a.download = 'eyenewz-share.png';
-            a.click();
-            URL.revokeObjectURL(urlObj);
-          }
+          const urlObj = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = urlObj;
+          a.download = 'eyenewz-share.png';
+          a.click();
+          URL.revokeObjectURL(urlObj);
         }
         setIsGenerating(false);
       }, 'image/png');
@@ -361,39 +221,41 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
             <span>{when ? when : "Just now"}{article.category ? ` · ${article.category}` : ""}</span>
           </div>
         </div>
-        
+
         {currentImage && (
-          <Link className="article-media" to={`/article/${article.id}`}>
-            <img 
-              src={currentImage} 
-              alt="" 
-              loading="lazy" 
-              width="720" 
-              height="405" 
-              onError={handleImageError} 
+          <Link className="article-media" to={`/a/${encodeURIComponent(article.id)}`}>
+            <img
+              src={useSrcset ? srcsetInfo.src || currentImage : currentImage}
+              srcSet={useSrcset && srcsetInfo.srcset ? srcsetInfo.srcset : undefined}
+              sizes="(max-width: 720px) 100vw, 680px"
+              alt=""
+              loading="lazy"
+              width="720"
+              height="405"
+              onError={handleImageError}
             />
           </Link>
         )}
-        
+
         <h2 className="article-headline">
-          <Link to={`/article/${article.id}`}>{getHighlightedText(headline, searchQuery)}</Link>
+          <Link to={`/a/${encodeURIComponent(article.id)}`}>{getHighlightedText(headline, searchQuery)}</Link>
         </h2>
         <p className="article-summary">{summary}</p>
-        
+
         <div className="article-footer">
           <div className="article-actions">
-            <button 
-              type="button" 
-              className={`icon-btn action-like ${isLiked ? 'is-liked' : ''}`} 
-              aria-label="Like" 
+            <button
+              type="button"
+              className={`icon-btn action-like ${isLiked ? 'is-liked' : ''}`}
+              aria-label="Like"
               aria-pressed={isLiked}
               onClick={() => toggleLike(article.id)}
             >
               {iconThumb()} {isLiked ? 'Liked' : 'Like'}
             </button>
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               className={`icon-btn action-share ${isGenerating ? 'is-generating' : ''}`}
               aria-label="Share"
               onClick={handleShare}
@@ -402,9 +264,9 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
               {iconShare()} {isGenerating ? "Wait..." : (copied ? "Copied" : "Share")}
             </button>
 
-            <button 
-              type="button" 
-              className={`icon-btn action-bookmark ${isBookmarked ? 'is-bookmarked' : ''}`} 
+            <button
+              type="button"
+              className={`icon-btn action-bookmark ${isBookmarked ? 'is-bookmarked' : ''}`}
               aria-label="Bookmark"
               onClick={() => toggleBookmark(article)}
               style={{ color: isBookmarked ? 'var(--accent-primary)' : 'inherit' }}

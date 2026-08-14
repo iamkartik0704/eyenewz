@@ -8,17 +8,7 @@ import WaitlistModal from './components/WaitlistModal';
 import BackToTop from './components/BackToTop';
 import ArticlePage from './components/ArticlePage';
 import StaticPage from './components/StaticPage';
-
-export const MARKET_DEFAULTS = {
-  global: {
-    forYouCategory: "WorldNews,Technology,DeveloperTools,Science,Space",
-    forYouLabel: "For You · Global",
-  },
-  india: {
-    forYouCategory: "",
-    forYouLabel: "For You · India",
-  },
-};
+import { MARKET_DEFAULTS } from './lib/markets';
 
 function App() {
   const [activeMarket, setActiveMarket] = useState(() => {
@@ -100,6 +90,7 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/a/:id" element={<ArticlePage />} />
       <Route path="/article/:id" element={<ArticlePage />} />
       <Route element={
         <>

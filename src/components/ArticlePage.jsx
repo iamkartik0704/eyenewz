@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { getArticle, sendEvent } from '../lib/api';
+import { getDeviceId } from '../lib/store';
+import { relativeTime, resolveImage, safeHttpUrl } from '../lib/article';
 
 function ArticlePage() {
   const { id } = useParams();
@@ -68,6 +71,7 @@ function ArticlePage() {
   }, [selectedVoiceURI]);
 
   const startSpeech = (startIndex) => {
+    if (!article) return;
     window.speechSynthesis.cancel();
     const textToRead = `${article.headline}. ${article.summary}`;
     const remainingText = textToRead.substring(startIndex);
@@ -155,31 +159,34 @@ function ArticlePage() {
   }, []);
 
   useEffect(() => {
-    // Scroll to top when page loads
     window.scrollTo(0, 0);
-
-    // Simulate fetch by parsing the ID or generating a mock
+    let cancelled = false;
     setLoading(true);
-    setTimeout(() => {
-      // In a real app, this would be an API call: fetch(`/api/articles/${id}`)
-      let numId = 0;
-      if (id && id.startsWith('mock-')) {
-        numId = parseInt(id.replace('mock-', ''), 10) || 0;
-      }
-      
-      setArticle({
-        id: id || 'mock-0',
-        publisherName: ["TechCrunch", "The Verge", "Wired", "Ars Technica"][numId % 4],
-        headline: `This is a sample tech news headline ${numId + 1} that shows off the new UI`,
-        summary: "This is a placeholder summary. It explains why this news matters and gives you a quick brief before you decide to read the full source. Enjoy the new premium dark mode and UI enhancements!\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-        whyItMatters: "This development is crucial because it sets a new standard for user interfaces in news reading applications. It combines aesthetics with high performance.",
-        imageUrl: `https://picsum.photos/seed/${numId}/1280/720`,
-        originalUrl: "https://example.com",
-        publishedAtEpochMillis: Date.now() - (numId * 3600000),
-        category: "WorldNews,Technology,DeveloperTools,Science,Space"
+    setArticle(null);
+
+    getArticle(id)
+      .then((data) => {
+        if (cancelled) return;
+        setArticle(data);
+        if (data?.id) {
+          sendEvent("view", {
+            articleId: data.id,
+            deviceId: getDeviceId(),
+            metadata: { source: "web_article" },
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        if (!cancelled) setArticle(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
       });
-      setLoading(false);
-    }, 400);
+
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   if (loading) {
@@ -201,17 +208,9 @@ function ArticlePage() {
 
   const publisher = article.publisherName || "News Source";
   const initial = publisher.charAt(0).toUpperCase();
-  const currentImage = article.imageUrl || null;
-  const href = article.originalUrl || "#";
-
-  // Format the relative time
-  let when = "Just now";
-  if (article.publishedAtEpochMillis) {
-    const diffMins = Math.floor((Date.now() - article.publishedAtEpochMillis) / 60000);
-    if (diffMins < 60) when = `${diffMins}m`;
-    else if (diffMins < 1440) when = `${Math.floor(diffMins / 60)}h`;
-    else when = `${Math.floor(diffMins / 1440)}d`;
-  }
+  const currentImage = safeHttpUrl(resolveImage(article).primary) || null;
+  const href = safeHttpUrl(article.originalUrl) || "#";
+  const when = relativeTime(article.publishedAtEpochMillis) || "Just now";
 
   return (
     <div style={{ backgroundColor: 'var(--bg)', minHeight: '100vh', paddingBottom: '4rem' }}>

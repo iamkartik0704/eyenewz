@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MARKET_DEFAULTS } from '../App';
+import { MARKET_DEFAULTS } from '../lib/markets';
 
 function Sidebar({ activeMarket, activeCategory, showBookmarks, onMarketChange, onNavClick, onSavedClick, onOpenSignIn, onOpenWaitlist, theme, toggleTheme }) {
   const navItems = [
