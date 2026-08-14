@@ -1,6 +1,6 @@
 /** Shared article helpers for the EyeNewz web feed. */
 
-import { articleImageSrcset } from "./api.js";
+import { articleImageSrcset, publisherLogoUrl } from "./api.js";
 
 export const SITE_ORIGIN = "https://eyenewz.com";
 
@@ -19,6 +19,17 @@ export function safeHttpUrl(value) {
   } catch {
     return "";
   }
+}
+
+export function resolvePublisherLogo(article) {
+  const fromHome = article?.publisherHomeUrl
+    ? publisherLogoUrl(article.publisherHomeUrl)
+    : "";
+  if (fromHome) return fromHome;
+  const raw = String(article?.publisherLogoUrl || "").trim();
+  if (raw.startsWith("/web-api/")) return raw;
+  if (raw.startsWith("/v1/publishers/logo")) return `/web-api${raw}`;
+  return safeHttpUrl(raw);
 }
 
 export function relativeTime(epochMs) {

@@ -4,12 +4,12 @@ import { articleImageSrcset } from '../lib/api';
 import {
   clipSummary,
   escapeRegExp,
-  publisherInitial,
   relativeTime,
   resolveImage,
   safeHttpUrl,
   storyPermalink,
 } from '../lib/article';
+import PublisherLogo from './PublisherLogo';
 
 function iconThumb() {
   return (
@@ -75,7 +75,6 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
   const headline = article.headline || "Untitled";
   const summary = clipSummary(article);
   const when = relativeTime(article.publishedAtEpochMillis);
-  const initial = publisherInitial(publisher);
   const permalink = storyPermalink(article.id);
   const srcsetInfo = article.id ? articleImageSrcset(article.id) : { src: "", srcset: "" };
   const useSrcset =
@@ -215,7 +214,7 @@ function ArticleCard({ article, isBookmarked, toggleBookmark, isLiked, toggleLik
     <article className="article-card article-fade-in" data-id={article.id || ""}>
       <div className="article-body">
         <div className="article-publisher">
-          <span className="pub-avatar" aria-hidden="true">{initial}</span>
+          <PublisherLogo article={article} />
           <div className="pub-meta">
             <strong>{publisher}</strong>
             <span>{when ? when : "Just now"}{article.category ? ` · ${article.category}` : ""}</span>

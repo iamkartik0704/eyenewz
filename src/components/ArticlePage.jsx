@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { getArticle, sendEvent } from '../lib/api';
 import { getDeviceId } from '../lib/store';
 import { relativeTime, resolveImage, safeHttpUrl } from '../lib/article';
+import PublisherLogo from './PublisherLogo';
 
 function ArticlePage() {
   const { id } = useParams();
@@ -207,7 +208,6 @@ function ArticlePage() {
   }
 
   const publisher = article.publisherName || "News Source";
-  const initial = publisher.charAt(0).toUpperCase();
   const currentImage = safeHttpUrl(resolveImage(article).primary) || null;
   const href = safeHttpUrl(article.originalUrl) || "#";
   const when = relativeTime(article.publishedAtEpochMillis) || "Just now";
@@ -338,7 +338,7 @@ function ArticlePage() {
         
         <div style={{ padding: currentImage ? '2.5rem 2rem 4rem' : '4rem 2rem 4rem' }}>
           <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <span className="pub-avatar" aria-hidden="true" style={{ width: '44px', height: '44px', fontSize: '1.1rem' }}>{initial}</span>
+            <PublisherLogo article={article} size={44} />
             <div className="pub-meta">
               <strong style={{ fontSize: '1.15rem', color: 'var(--ink)' }}>{publisher}</strong>
               <span className="time" style={{ fontSize: '1rem', color: 'var(--ink-muted)', marginTop: '2px', display: 'block' }}>
