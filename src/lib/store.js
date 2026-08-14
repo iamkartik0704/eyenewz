@@ -45,7 +45,7 @@ export function getDeviceId() {
 }
 
 export function getMarket() {
-  return localStorage.getItem(KEYS.market) || "global";
+  return localStorage.getItem(KEYS.market) || "india";
 }
 
 export function setMarket(market) {

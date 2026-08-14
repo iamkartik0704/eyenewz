@@ -4,6 +4,7 @@ const API_BASE = "/web-api";
 
 async function request(path, options = {}) {
   const res = await fetch(`${API_BASE}${path}`, {
+    cache: "no-store",
     ...options,
     headers: {
       Accept: "application/json",

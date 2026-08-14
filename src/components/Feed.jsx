@@ -64,6 +64,8 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
     }
 
     const params = personalizationParams();
+    const isForYou = (activeLabel || "").includes("For You");
+    if (isForYou) params.rankingVariant = "for_you";
     if (isSearching) {
       params.q = debouncedSearchQuery;
     } else {
@@ -96,7 +98,7 @@ function Feed({ activeCategory, activeLabel, activeMarket, showBookmarks }) {
       setLoading(false);
       fetchingRef.current = false;
     }
-  }, [activeCategory, activeMarket, isSearching, debouncedSearchQuery]);
+  }, [activeCategory, activeLabel, activeMarket, isSearching, debouncedSearchQuery]);
 
   const loadSaved = useCallback(async () => {
     fetchingRef.current = true;

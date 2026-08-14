@@ -13,7 +13,7 @@ import { MARKET_DEFAULTS } from './lib/markets';
 function App() {
   const [activeMarket, setActiveMarket] = useState(() => {
     const savedMarket = localStorage.getItem("eyenewz_market");
-    return MARKET_DEFAULTS[savedMarket] ? savedMarket : "global";
+    return MARKET_DEFAULTS[savedMarket] ? savedMarket : "india";
   });
   
   const getSavedNav = (market) => {
