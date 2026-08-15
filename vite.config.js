@@ -7,9 +7,10 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/web-api': {
-        target: 'https://eyenewz.com',
+        target: 'http://127.0.0.1:8000',
         changeOrigin: true,
-        secure: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/web-api/, '')
       },
     },
   },

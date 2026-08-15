@@ -219,14 +219,14 @@ function ArticlePage() {
         position: 'sticky', 
         top: 0, 
         zIndex: 100, 
-        backgroundColor: 'rgba(var(--bg-rgb, 10, 12, 16), 0.85)', 
-        backdropFilter: 'blur(12px)',
+        backgroundColor: 'var(--surface)',
         borderBottom: '1px solid var(--border)',
-        height: '60px',
+        height: '64px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 1rem'
+        padding: '0 1.5rem',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.02)'
       }}>
         <Link to="/" style={{ 
           display: 'flex', 
@@ -234,26 +234,56 @@ function ArticlePage() {
           gap: '0.5rem', 
           color: 'var(--ink)', 
           textDecoration: 'none',
-          fontWeight: 600
-        }}>
+          fontWeight: 600,
+          fontSize: '0.95rem',
+          transition: 'color 0.2s'
+        }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink)'}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          Back to Home
+          Back to Feed
         </Link>
         
-        <div ref={settingsRef} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', position: 'relative' }}>
+        <div ref={settingsRef} style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', position: 'relative' }}>
           <button 
             onClick={() => setShowSettings(!showSettings)} 
             aria-label="Speech Settings"
-            style={{ background: 'transparent', border: 'none', color: 'var(--ink)', cursor: 'pointer', padding: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '50%', color: 'var(--ink)', cursor: 'pointer', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--border)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--bg)'}
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           </button>
           
           <button 
             className="btn-listen"
             onClick={toggleListen}
             aria-label={playbackState === 'playing' ? "Pause article" : "Listen to article"}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', borderRadius: '100px', border: '1px solid var(--accent)', backgroundColor: playbackState !== 'idle' ? 'var(--accent)' : 'transparent', color: playbackState !== 'idle' ? '#fff' : 'var(--accent)', cursor: 'pointer', fontWeight: 600, fontSize: '0.9rem', transition: 'all 0.2s' }}
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.4rem', 
+              padding: '0.4rem 1rem', 
+              borderRadius: '100px', 
+              border: 'none',
+              backgroundColor: playbackState !== 'idle' ? 'var(--accent)' : 'var(--accent-soft)', 
+              color: playbackState !== 'idle' ? '#fff' : 'var(--accent)', 
+              cursor: 'pointer', 
+              fontWeight: 600, 
+              fontSize: '0.9rem', 
+              transition: 'all 0.2s',
+              boxShadow: playbackState !== 'idle' ? '0 4px 12px rgba(227, 6, 19, 0.2)' : 'none'
+            }}
+            onMouseEnter={(e) => {
+              if (playbackState === 'idle') {
+                e.currentTarget.style.backgroundColor = 'var(--accent)';
+                e.currentTarget.style.color = '#fff';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (playbackState === 'idle') {
+                e.currentTarget.style.backgroundColor = 'var(--accent-soft)';
+                e.currentTarget.style.color = 'var(--accent)';
+              }
+            }}
           >
             {playbackState === 'playing' ? (
                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
